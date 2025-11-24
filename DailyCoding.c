@@ -1,14 +1,15 @@
 ﻿#define  _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include <math.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdlib.h>  // 包含srand()和rand()函数
-#include <time.h> // 包含time()函数，用于获取系统时间
-#include <windows.h>//控制台
-#include <ctype.h>//islower isupper toupper tolower
-#include <assert.h>//assert
+//#include <assert.h>//assert
+//#include <ctype.h>//islower isupper toupper tolower
+//#include <math.h>
+//#include <stdbool.h>
+//#include <stdio.h>
+//#include <stdlib.h>  // 包含srand()和rand()函数
+//#include <string.h>
+//#include <time.h> // 包含time()函数，用于获取系统时间
+//#include <windows.h>//控制台
 //#include <algorithm>
+#include "Coding.h"
 
 //以下为两个数四则运算需要调用的函数
 //int Add(int x, int y)
@@ -4724,17 +4725,13 @@ sizeof
 //	printf("hehe\n");
 //	return 0;
 //}
+//公倍数的计算 法一
 //int main()
 //{
 //	int m, n;
 //	int num;
 //	scanf("%d %d", &m, &n);
-//	if (m < n)
-//	{
-//		num = m;
-//	}
-//	else
-//		num = n;
+//	num = m < n ? m : n;
 //	while (num % m != 0 || num % n != 0)
 //	{
 //		if (m < n)
@@ -4747,21 +4744,1979 @@ sizeof
 //	printf("%d\n", num);
 //	return 0;
 //}
+//法二
+//int main()
+//{
+//	int a, b;
+//	scanf("%d %d", &a, &b);
+//	int num = a < b ? a : b;
+//	int i = 1;
+//	while (a * i % b)
+//	{
+//		i++;
+//	}
+//	printf("%d", i * a);
+//	return 0;
+//}
+//逆置字符串 I like Biejing. ---> Beijing. like I
+//把整个句子逆序
+//把每个单词逆序
+//					很牛逼nbNB的一个方法   复习
+//void reverse(char* left, char* right)
+//{
+//	assert(left);
+//	assert(right);
+//	while (left < right)
+//	{
+//		char tmp = *left;
+//		*left = *right;
+//		*right = tmp;
+//		left++;
+//		right--;
+//	}
+//}
+//int main()
+//{
+//	char str[101] = { 0 };
+//	gets(str);// 读取用户输入的字符串（注意：gets不安全，实际开发建议用fgets）
+//	int len = strlen(str);
+//	reverse(str, str + len - 1);
+//	char* start = str;
+//	while (*start)// 当start未指向字符串结束符'\0'时，循环处理每个单词
+//	{
+//		char* end = start;
+//		while (*end != ' ' && *end != '\0')
+//		{
+//			end++;
+//		}
+//		reverse(start, end - 1);
+//		if (*end != '\0')// 如果不是结束符，说明遇到了空格
+//		{
+//			end++;
+//		}
+//		start = end;
+//	}
+//	printf("%s\n", str);
+//	return 0;
+//}
+//整形存储和大小端
+//int main()
+//{
+//	int i = 0;
+//	int arr[10] = { 1,2,3,4,5,6,7,8,9,10 };
+//	for (i = 0; i <= 12; i++)
+//	{
+//		arr[i] = 0;
+//		printf("gun\n");
+//	}
+//	return 0;
+//}
+//signed int 和 int是一样的
+//char 分为三种 char 和 signed char 和 unsigned char
+//char到底是signed char还是unsigned char标准是未定义的,取决于编译器的实现
+//构造类型(自定义类型):
+//         数组类型
+//         结构体类型   struct 
+//		   枚举类型     enum
+//		   联合类型     union
+// 
+//指针类型:
+//			int* pi
+//			char* pc
+//			float* pf
+//			void* pv
+//
+//空类型:
+//void 表示空类型(无类型)
+//通常应用于函数的返回类型,函数的参数,返回类型
+//void test(void)
+//第一个void表示test不会返回值
+//第二个void表示test不需要传任何参数
+
+//数值的表示形式
+//2进制
+//8进制
+//10进制
+//16进制
+//十进制的21
+//0b10101
+//025
+//21
+//0x15
+//
+//整数的二进制表示有三种形式
+//1.正整数的原反补码相同
+//2.负整数的原反补码需要计算
+//原码:直接通过正负的形式写出的二进序列就是原码
+//反码:原码的符号位不变,其他位按位取反
+//补码:反码+1
+// 
+//内存中存放的本质还是二进制序列
+//VS调试窗口的内存显示的是16进制是方便我们看的
+//
+//int main()
+//{
+//	int a = 20;
+//	//20
+//	//00000000000000000000000000010100
+//	//0x00 00 00 14
+//	//00000000000000000000000000010100
+//	//00000000000000000000000000010100
+//	int b = -10;
+//	//10000000000000000000000000001010
+//	//0x80 00 00 0a 
+//	//11111111111111111111111111110101
+//	//0xff ff ff f5
+//	//11111111111111111111111111110110
+//	//0xff ff ff f6
+//	return 0;
+//	//0x11 22 33 44
+//	//高位         低位
+//	//  11 22 33 44				44 33 22 11
+//	//低            高        低             高  
+//	//大端字节序存储				小端字节序存储
+//	//大小端的存储方式取决于硬件
+//}
+//大端【字节序】存储：
+//把一个数据的高位字节序的内容存放在低地址处，把低位字节序的内容放在高地址处，就是大端字节序存储。
+//小端【字节序】存储：
+//把一个数据的高位字节序的内容存放在高地址处，把低位字节序的内容放在低地址处，就是小端字节序存储。
+//int main()
+//{
+//	int a = 1;
+//	printf("%p\n", *(char*)&a);//00000001 小端
+//	return 0;
+//}
+//int check_sys()
+//{
+//	int a = 1;
+//	return *(char*)&a;
+//}
+//int main()
+//{
+//	//核心是截断和整型提升
+//	char a = -1;
+//	signed char b = -1;
+//	unsigned char c = -1;
+//	//10000000 00000000 00000000 00000001   --> -1
+//	//11111111 11111111 11111111 11111110
+//	//11111111 11111111 11111111 11111111
+//	//							 11111111 --> 截断的是后八位
+//	printf("a=%d b=%d c=%d", a, b, c);//-1 -1 255
+//	//%d 是打印有符号的整形 会发生整形提升 高位补1
+//	//%d   打印无符号的整形				 高位补0
+//	//11111111 11111111 11111111 11111111 - 内存中的补码
+//	//10000000 00000000 00000000 00000000
+//	//10000000 00000000 00000000 00000001 -> -1
+//	return 0;
+//	//有符号的char (-128)~127 最高位是来表示符号的
+//	//无符号的char 0~255      最高位也是拿来表示大小的
+//}
+//unsigned short 
+//00000000 00000000     0
+//11111111 11111111     65535
+//signed   short
+//(-32768)~32767
+//int main()
+//{
+//	int i = -20;
+//	//100000000 00000000 00000000 00010100
+//	//111111111 11111111 11111111 11101011
+//	//111111111 11111111 11111111 11101100 -->(-20)的补码
+//	unsigned int j = 10;
+//	//000000000 00000000 00000000 00001010
+//	printf("%d\n", i + j);// -10
+//	//111111111 11111111 11111111 11101100 -->(-20)的补码
+//	//000000000 00000000 00000000 00001010 -->(+10)的补码
+//	//111111111 11111111 11111111 11110110 -->(i+j)的补码
+//	//100000000 00000000 00000000 00001001
+//	//100000000 00000000 00000000 00001010 -->(-10)
+//	return 0;
+//}
+//int main()
+//{
+//	unsigned int i;
+//
+//	for (i = 9; i >= 0; i--)
+//	{
+//		printf("%u\n", i);//9 8 7 6 5 4 3 2 1 0 4294967295不断减少的四十二亿多的死循环
+//		Sleep(1000);
+//		//0-1是-1 但是i=-1被放在无符号整数里面全部都被当作有效位
+//		//11111111 11111111 11111111 11111111 -->(-1)的补码
+//	}
+//	return 0;
+//}
+//int main()
+//{
+//	char a[1000];
+//	int i;
+//	for (i = 0; i < 1000; i++)
+//	{
+//		a[i] = -1 - i;
+//	}
+//  //还是截断的知识
+//	printf("%d", strlen(a));//255
+//	return 0;
+//}
+//unsigned char i = 0;//0~255
+////11111111
+////
+//int main()
+//{
+//	int count = 0;
+//	for (i = 0; i <= 255; i++)
+//	{
+//		printf("Hello World\n");
+//		count++;
+//		//死循环
+//	}
+//	printf("%d", count);
+//	return 0;
+//}
+//int my_strlen(const char* str)
+//{
+//	assert(str);
+//	int count = 0;
+//	while (*str)
+//	{
+//		str++;
+//		count++;
+//	}
+//	return count;
+//}
+//int main()
+//{
+//	if (my_strlen("abc") - my_strlen("abcdef") >= 0)
+//		printf(">\n");
+//	//strlen 返回类型是size_t --> unsigned int (因为长度不可能是负值)
+//	//不相信的话可以转到定义去看
+//	//快捷键 ctrl加鼠标左键
+//	else
+//		printf("<\n");
+//	//用的是库函数strlen的话       会打印  大于号 ">"
+//	//用的是自己的函数my_strlen的话 会打印  小于号 "<"
+//	//因为库函数是size_t 而自己定义的my_strlen是int 
+//	//想得到正确的也可以强制类型转换(int)strlen
+//		return 0;
+//}
+//					浮点型在内存中的存储
+//limits.h  float.h
+//int main()
+//{
+//	int n = 9;
+//	float* pFloat = (float*)&n;
+//	printf("n的值为：%d\n", n);//9
+//	printf("*pFloat的值为：%f\n", *pFloat);//0.000000
+//	*pFloat = 9.0;
+//	printf("num的值为：%d\n", n);//1091567616
+//	printf("*pFloat的值为：%f\n", *pFloat);//9.000000
+//	return 0;
+//	/*
+//		n的值为：9
+//		*pFloat的值为：0.000000
+//		num的值为：1091567616
+//		*pFloat的值为：9.000000
+//	*/
+//}
+//					浮点数的存储规则
+//根据国际标准 任何一个二进制浮点数V = (-1)^S * M * 2^E
+//(-1)^s表示符号位,当S=0,V为正数  当S=1,V为负数
+//M表示有效数字,大于等于1,小于2
+//2^E表示指位数
+//V = 5.0f
+//101.0 --> 5.0的二进制表示形式
+//1.01 * 2^2浮点右移两位  其实就是科学计数法 因为是二进制所以是2^n
+//(-1)^0 * 1.01 * 2^2
+//V = 9.5f
+//9.5的二进制表示1001.1    小数点后第一位是2^(-1) = 0.5
+//(-1)^0 * 1.0011 * 2^3
+//   S=0  M=1.0011  E=3
+//像9.6在内存中就无法精确保存
+//IEEE 754 规定:
+//对于 float  32位的浮点数,最高的1位是S,接着 8位是指数E,剩下的23位为有效数字M
+//对于 double 64位的浮点数,最高的1位是S,接着11位是指数E,剩下的52位为有效数字M
+/*
+在C语言中
+分为三个部分：符号位、指数位和尾数位。以下是具体规则：
+### 1. 浮点数的组成（以32位`float`和64位`double`为例）
+| 类型   | 总位数 | 符号位（S） | 指数位（E） | 尾数位（M） |
+|--------|--------|-------------|-------------|-------------|
+| float  | 32     | 1位         | 8位         | 23位        |
+| double | 64     | 1位         | 11位        | 52位        |
+### 2. 各部分含义
+#### （1）符号位（S）
+- 占1位，用于表示浮点数的正负：
+  - `S=0`：正数
+  - `S=1`：负数
+#### （2）指数位（E）
+- 用于表示科学计数法中的指数部分，采用**偏移码**（biased exponent）存储：
+  - 对于`float`（8位指数）：偏移量为`127`（即`2^(8-1) - 1`）
+  - 对于`double`（11位指数）：偏移量为`1023`（即`2^(11-1) - 1`）
+- 实际指数 = 存储的指数值 - 偏移量
+- 例如：`float`的指数位存储值为`130`，则实际指数为`130 - 127 = 3`
+#### （3）尾数位（M）
+- 用于表示科学计数法中的有效数字（小数部分），采用**隐含1位**的规格化表示：
+  - 规格化的二进制浮点数可表示为 `1.M × 2^E`（`1` 是隐含的，不占用存储空间）
+  - 尾数位存储的是 `M` 的小数部分（例如：`1.0101` 的尾数位存储 `0101`）
+- 对于`float`（23位尾数）：实际有效位数为 `24` 位（隐含1
+### 3. 特殊情况（指数位全0或全1）
+- **指数位全0**：表示非规格化数（用于表示接近0的极小值），此时隐含位为`0`，位 + 23位存储）
+- 对于`double`（52位尾数）：实际有效位数为 `53` 位即 `0.M × 2^(1 - 偏移量)`。
+- **指数位全1**：
+  - 尾数位全0：表示无穷大（`+∞` 或 `-∞`，由符号位决定）。
+  - 尾数位非0：表示NaN（Not a Number，非数值，如`0/0`、`sqrt(-1)`等）。
+### 4. 示例（32位`float`存储）
+以 `float x = 5.5` 为例：
+1. 转换为二进制：`5.5` → 整数部分`101` + 小数部分`0.1` → 合并为 `101.1`。
+2. 规格化：`101.1 = 1.011 × 2^2`（即 `1.M × 2^E`，其中 `M=011`，`E=2`）。
+3. 符号位：`S=0`（正数）。
+4. 指数位：`E + 127 = 2 + 127 = 129` → 二进制 `10000001`。
+5. 尾数位：存储 `M=011`，不足23位补0 → `01100000000000000000000`。
+最终存储的32位二进制为：
+`0 10000001 01100000000000000000000`
+### 总结
+- 浮点数通过符号位、指数位（偏移存储）和尾数位（隐含1位）表示。
+- 精度有限（`float`约6-7位十进制，`double`约15-17位），存在舍入误差。
+- 特殊值（0、±∞、NaN）有专门的存储规则。
+理解该规则有助于解释浮点数的精度问题（如`0.1 + 0.2 != 0.3`）和范围限制。
+*/
+/*
+  V = 0.5f
+	= 0.1
+	=1.0 *2^(-1)
+	=(-1)^0 * 1.0 * 2^(-1)
+		  S   M        E
+*/
+//有以下规定
+//float  -> E（真实值） +127  （中间值） ->126  - 存储
+//double -> E（真实值） + 1023（中间值） ->1022 - 存储
+//int main()
+//{
+//	float f = 5.5;
+//	//5.5
+//	//101.1
+//	//1.011 * 2^2
+//	//s=0 m=1.011 e=2
+//	//0 10000001 01100000000000000000000 
+//	//0100 0000 1011 0000 0000 0000 0000 0000 
+//	//4    0    b    0    0    0    0    0
+//	//2+127=129
+//	return 0;
+//}
+//还原分3种情况
+//E有0有1时
+//0 10000001 01100000000000000000000 
+//(-1)^0 * 1.01100000000000000000000 * 2^2
+//E全为0
+//E=1-127或(1-1023)即为真实值
+//有效数字M不再加上第一位的1，而是还原为0.xXX×x×的小数。这样做是为了表示±0, 0的很小的数字
+//E全为1
+//这时,如果有效数字M全为0,表示+-无穷大(正负取决于符号位S)
+//这时回过头来再看这题
+//int main()
+//{
+//	int n = 9;
+//	//00000000 00000000 00000000 00001001
+//	float* pFloat = (float*)&n;
+//	printf("n的值为：%d\n", n);//9
+//	//0 00000000 00000000000000000001001
+//	//E=-126
+//	//M=0.00000000000000000001001
+//	// + 0.00000000000000000001001 * 2^-126
+//	//
+//	printf("*pFloat的值为：%f\n", *pFloat);//0.000000
+//	*pFloat = 9.0;
+//	//1001.0
+//	//1.001 * 2^3
+//	//S=0 E=3 M=1.001
+//	//0 10000010 00100000000000000000000
+//	//这个二进制序列直接被当成整数打印出来 可以打开计算器去运算
+//	printf("num的值为：%d\n", n);//1091567616
+//	printf("*pFloat的值为：%f\n", *pFloat);//9.000000
+//	return 0; 
+//}
+//调整奇数偶数顺序
+//使奇数在数组中全部位于偶数前面 并按从小到大排序
+//										笨拙的方法一
+//void sort(int* arr, int sz, int* arr2)
+//{
+//	//先分类
+//	int j = 0;
+//	int m = sz;
+//	for (int i = 0; i < sz; i++)
+//	{
+//
+//		if (arr[i] % 2 != 0)
+//		{
+//			arr2[j] = arr[i];
+//			j++;
+//		}
+//		else
+//		{
+//			arr2[m - 1] = arr[i];
+//			m--;
+//		}
+//	}
+//	//排序
+//}
+//int main()
+//{
+//	int arr[10] = { 0 };
+//	int sz = sizeof(arr) / sizeof(arr[0]);
+//	int i = 0;
+//	for (i = 0; i < sz; i++)
+//	{
+//		//scanf("%d", &arr[i]);两种写法一样
+//		scanf("%d", arr + i);
+//	}
+//	//调整
+//	int arr2[10001] = { 0 };
+//	sort(arr, sz, arr2);
+//	//输出
+//	for (i = 0; i < sz; i++)
+//	{
+//		printf("%d ", arr2[i]);
+//	}
+//	return 0;
+//}
+//先进的法二  (但仍有漏洞)
+//void sort(int* arr, int* sz)
+//{
+//	int left = 0;
+//	int right = *sz - 1;
+//	while (left < right)
+//	{
+//		if (arr[left] % 2 == 0 && arr[right] % 2 != 0)
+//		{
+//			int t = arr[left];
+//			arr[left] = arr[right];
+//			arr[right] = t;
+//		}
+//		left++;
+//		right--;
+//	}
+//}
+//int main()
+//{
+//	int arr[10] = { 0 };
+//	int sz = sizeof(arr) / sizeof(arr[0]);
+//	int i = 0;
+//	for (i = 0; i < sz; i++)
+//	{
+//		scanf("%d", &arr[i]);
+//	}
+//	//调整
+//	sort(arr, &sz);
+//	//输出
+//	for (i = 0; i < sz; i++)
+//	{
+//		printf("%d ", arr[i]);
+//	}
+//	return 0;
+//}
+//法三 更进一步
+// 调整函数：将奇数放到偶数前面，不排序
+//void sort(int* arr, int* sz)
+//{
+//	int left = 0;
+//	int right = *sz - 1;
+//	while (left < right)
+//	{
+//		// 从左往右找到第一个偶数
+//		while (left < right && arr[left] % 2 != 0)
+//			left++;
+//		// 从右往左找到第一个奇数
+//		while (left < right && arr[right] % 2 == 0)
+//			right--;
+//		// 交换奇数和偶数
+//		if (left < right)
+//		{
+//			int t = arr[left];
+//			arr[left] = arr[right];
+//			arr[right] = t;
+//			left++;
+//			right--;
+//		}
+//	}
+//}
+//
+//int main()
+//{
+//	int arr[10] = { 0 };
+//	int sz = sizeof(arr) / sizeof(arr[0]);
+//	int i = 0;
+//	printf("请输入10个整数：\n");
+//	for (i = 0; i < sz; i++)
+//	{
+//		scanf("%d", &arr[i]);
+//	}
+//	// 调整奇偶位置
+//	sort(arr, &sz);
+//	// 输出结果
+//	printf("调整后（奇数在前，偶数在后，未排序）：\n");
+//	for (i = 0; i < sz; i++)
+//	{
+//		printf("%d ", arr[i]);
+//	}
+//	printf("\n");
+//	return 0;
+//}
+//法四	   涉及malloc
+// qsort 比较函数，用于升序排序
+//int compare(const void* a, const void* b) 
+//{
+//	return (*(int*)a - *(int*)b);
+//}
+//// 调整函数：奇数在前偶数在后，且各自排序
+//void sort(int* arr, int sz)
+//{
+//	int* odds = (int*)malloc(sz * sizeof(int));
+//	int* evens = (int*)malloc(sz * sizeof(int));
+//	int oddCount = 0, evenCount = 0;
+//	// 第一步：分离奇数和偶数
+//	for (int i = 0; i < sz; i++)
+//	{
+//		if (arr[i] % 2 != 0) 
+//		{
+//			odds[oddCount++] = arr[i];  // 奇数
+//		}
+//		else 
+//		{
+//			evens[evenCount++] = arr[i]; // 偶数
+//		}
+//	}
+//	// 第二步：分别排序
+//	qsort(odds, oddCount, sizeof(int), compare);
+//	qsort(evens, evenCount, sizeof(int), compare);
+//	// 第三步：合并回原数组：奇数在前，偶数在后
+//	int index = 0;
+//	for (int i = 0; i < oddCount; i++)
+//	{
+//		arr[index++] = odds[i];
+//	}
+//	for (int i = 0; i < evenCount; i++) 
+//	{
+//		arr[index++] = evens[i];
+//	}
+//	// 释放临时数组
+//	free(odds);
+//	free(evens);
+//}
+//int main()
+//{
+//	int arr[10] = { 0 };
+//	int sz = sizeof(arr) / sizeof(arr[0]);
+//	int i = 0;
+//	printf("请输入10个整数：\n");
+//	for (i = 0; i < sz; i++)
+//	{
+//		scanf("%d", &arr[i]);
+//	}
+//	// 调整：奇数在前，偶数在后，且各自排序
+//	sort(arr, sz);
+//	// 输出
+//	printf("调整后（奇数在前升序，偶数在后升序）：\n");
+//	for (i = 0; i < sz; i++) 
+//	{
+//		printf("%d ", arr[i]);
+//	}
+//	printf("\n");
+//	return 0;
+//}
+//输入两个升序排列的序列，将两个序列合并为一个有序序列并输出。
+//数据范围：1 ≤ n, m ≤ 1000
+//1≤n, m≤1000  ， 序列中的值满足0≤val≤30000
+//0≤val≤30000
+//输入描述：
+//输入包含三行，
+//第一行包含两个正整数n, m，用空格分隔。n表示第二行第一个升序序列中数字的个数，m表示第三行第二个升序序列中数字的个数。
+//第二行包含n个整数，用空格分隔。
+//第三行包含m个整数，用空格分隔。
+//输出描述：
+//输出为一行，输出长度为n + m的升序序列，即长度为n的升序序列和长度为m的升序序列中的元素重新进行升序序列排列合并。
+//法一 简单实现 但时间复杂度为O((n+m)²) 且没利用原序列的升序 冒泡排序
+//void sort(int* nx, int* mx, int n, int m)
+//{
+//	int arr[20002] = { 0 };
+//	for (int i = 0; i < n; i++)
+//	{
+//		arr[i] = nx[i];
+//	}
+//	for (int j = n; j < n + m; j++)
+//	{
+//		arr[j] = mx[j-n];
+//	}
+//	int left = 0;
+//	int right = n + m - 1;
+//	//冒泡一下就可以了
+//	for (int i = 0; i < m + n - 1; i++)
+//	{
+//		//一趟冒泡排序
+//		int j = 0;
+//		for (j = 0; j < m + n - 1 - i; j++)
+//		{
+//			if (arr[j] > arr[j + 1])
+//			{
+//				//交换
+//				int tmp = arr[j];
+//				arr[j] = arr[j + 1];
+//				arr[j + 1] = tmp;
+//			}
+//		}
+//	}
+//	for (int l = 0; l < m + n; l++)
+//	{
+//		printf("%d ", arr[l]);
+//	}
+//}
+//int main()
+//{
+//	int n, m;
+//	scanf("%d %d", &n, &m);
+//	int nx[10001] = { 0 };
+//	int mx[10001] = { 0 };
+//	for (int i = 1; i <= n; i++)
+//	{
+//		scanf("%d", &nx[i - 1]);
+//	}
+//	for (int i = 1; i <= m; i++)
+//	{
+//		scanf("%d", &mx[i - 1]);
+//	}
+//	sort(nx, mx, n, m);
+//	return 0;
+//}//等会优化一下
+//这里引入归并排序
+//法二 归并两个有序数组
+//void merge(int* nx, int* mx, int n, int m) 
+//{
+//	int i = 0;  // 第一个数组的索引
+//	int j = 0;  // 第二个数组的索引
+//	int k = 0;  // 结果数组的索引
+//	int result[2000] = { 0 };  // 存储合并结果
+//	// 同时遍历两个数组，按顺序放入结果数组
+//	while (i < n && j < m) 
+//	{
+//		if (nx[i] <= mx[j]) 
+//		{
+//			result[k++] = nx[i++];
+//		}
+//		else 
+//		{
+//			result[k++] = mx[j++];
+//		}
+//	}
+//	// 处理第一个数组剩余元素
+//	while (i < n) 
+//	{
+//		result[k++] = nx[i++];
+//	}
+//	// 处理第二个数组剩余元素
+//	while (j < m) 
+//	{
+//		result[k++] = mx[j++];
+//	}
+//	// 输出结果
+//	for (int l = 0; l < n + m; l++) 
+//	{
+//		printf("%d ", result[l]);
+//	}
+//}
+//法二 的进阶 归并排序进阶直接打印
+//void sort(int* nx, int* mx, int n, int m)
+//{
+//	//1 3 7 9 22
+//	//2 8 10 17 33 44
+//	int i = 0, j = 0;
+//	int min = nx[0];
+//	while (i < n && j < m)
+//	{
+//		if (nx[i] < mx[j])
+//		{
+//			printf("%d ", nx[i]);
+//			i++;
+//		}
+//		else
+//		{
+//			printf("%d ", mx[j]);
+//			j++;
+//		}
+//	}
+//	if (i<n)
+//	{
+//		for (; i < n; i++)
+//		{
+//			printf("%d ", nx[i]);
+//		}
+//	}
+//	else
+//		for (; j < m; j++)
+//		{
+//			printf("%d ", mx[j]);
+//		}
+//}
+//int main()
+//{
+//	int n, m;
+//	scanf("%d %d", &n, &m);
+//	int nx[10001] = { 0 };
+//	int mx[10001] = { 0 };
+//	for (int i = 1; i <= n; i++)
+//	{
+//		scanf("%d", &nx[i - 1]);
+//	}
+//	for (int i = 1; i <= m; i++)
+//	{
+//		scanf("%d", &mx[i - 1]);
+//	}
+//	sort(nx, mx, n, m);
+//	return 0;
+//}
+//法三 最牛逼NB的版本了
+//int main()
+//{
+//	int a, b, c[100], temp;
+//	scanf("%d", &a);
+//	scanf("%d", &b);
+//	for (int i = 1; i <= a + b; i++) {
+//		scanf("%d", &c[i]);
+//	}
+//	for (int i = 1; i <= a + b; i++)
+//	{
+//		for (int j = 1; j <= a + b - i; j++)
+//		{
+//			if (c[j] > c[j + 1])
+//			{
+//				temp = c[j];
+//				c[j] = c[j + 1];
+//				c[j + 1] = temp;
+//			}
+//		}
+//	}
+//	for (int i = 1; i < a + b + 1; i++) {
+//		printf("%d ", c[i]);
+//	}
+//	return 0;
+//}
+//指针进阶
+//字符指针
+//指针数组
+//数组指针
+//数组参数 指针参数
+//函数指针
+//函数指针数组
+//指向函数指针数组的指针
+//回调指针
+//指针和数组面试题的解析
+//int main()
+//{
+//	//char ch = 'w';
+//	//char* pc = &ch;
+//	//*pc = 'b';
+//	//printf("%c\n", ch);
+//	const char* p = "abcdef";//把字符串首字母a的地址赋值给了p
+//	//*p = 'w';//err  放报错可以在char*p前面加上const
+//	printf("%s\n", p);
+//	char arr[] = "abcdef";
+//	printf("%s\n", arr);
+//	return 0;
+//}
+//字符指针
+//int main()
+//{
+//	char* p1 = "abcdef";
+//	char* p2 = "abcdef";
+//	const char* p3 = "abcdef";
+//	const char* p4 = "abcdef";
+//	//char的abcdef被放在只读区域所以两个指针指向同一块空间
+//	char arr1[] = "abcdef";
+//	char arr2[] = "abcdef";
+//	if (p1 == p2)
+//		printf("p1=p2\n");//输出
+//	else
+//		printf("p1!=p2\n");//不输出
+//	if (p3 == p4)
+//		printf("p3=p4\n");//输出
+//	else
+//		printf("p3!=p4\n");//不输出
+//	if (arr1 == arr2)
+//		printf("arr1=arr2\n");//不输出
+//	else
+//		printf("arr1!=arr2\n");//输出
+//	return 0;
+//}
+//指针数组
+//int main()
+//{
+//	int arr[10] = {0};
+//	char ch[5] = { '*' };
+//	//指针数组
+//	int* arr2[6];
+//	char* ch2[5];
+//	return 0;
+//}
+//int main()
+//{
+//	int arr1[] = { 1,2,3,4,5 };
+//	int arr2[] = { 2,3,4,5,6 };
+//	int arr3[] = { 3,4,5,6,7 };
+//	//一维数组用指针模拟实现二维数组 但是二维数组在内存中是连续存放的 而以下在内存中不一定连续排放
+//	int* parr[3] = { arr1,arr2,arr3 };
+//	int i = 0;
+//	for (i = 0; i < 3; i++)
+//	{
+//		int j = 0;
+//		for (j = 0; j < 5; j++)
+//		{
+//			//*(p+i) --> p[i]这两种是等价的
+//			printf("%d ", *(parr[i] + j));
+//		}
+//		printf("\n");
+//	}
+//	return 0;
+//}
+// 数组指针（Array Pointer）
+//​含义​：指向数组的指针，即这个指针指向的是一个整个数组。
+//​类型示例​：int(*p)[n];
+//这表示 p 是一个指针，它指向一个包含 n 个 int 元素的数组。
+//​通俗理解​：指针指向的是一块连续的、固定大小的内存区域（一个数组）。是指针
+//int main()
+//{
+//	//两者有区别
+//	//int *p1[10]指针数组
+//	//int (*p2)[10]数组指针
+//	//p2是数组指针，p2可以指向一个数组，该数组有10个元素，每个元素是int类型
+//
+//	int arr[10] = { 0 };
+//	int* p = arr;
+//	int(*p2)[10] = &arr;
+//
+//	//printf("%p\n", arr);
+//	//printf("%p\n", arr+1);
+//
+//	//printf("%p\n", &arr[1]);
+//	//printf("%p\n", &arr[0]+1);
+//
+//
+//	//printf("%p\n", &arr);
+//	//printf("%p\n", &arr+1);
+//
+//	//printf("%p\n", arr[0]);
+//	//printf("%p\n", arr[0]);
+//
+//	return 0;
+//}
+//int main()
+//{
+//	int arr[10] = { 0 };
+//	int* p = &arr;//会有警告
+//	return 0;
+//}
+//int main()
+//{
+//	int arr[] = { 1,2,3,4,5,6,7,8,9,10 };
+//	int (*p)[10] = &arr;
+//
+//	int i = 0;
+//	int sz = sizeof(arr) / sizeof(arr[0]);
+//	//错误示范
+//	for (i = 0; i < sz; i++)
+//	{
+//		printf("%d ", *p);//p是指向数组的,*p其实就相当于数组名 数组名又是首元素的地址
+//		//12516148 12516148 12516148 12516148 12516148 12516148 12516148 12516148 12516148 12516148
+//		//每次都会产生10串随机的数字
+//		printf("%d ", *(*p+i));//这样就是正确的 但不推荐因为比较麻烦
+//	}
+//	printf("\n");
+//	//正确示范
+//	int* pp = arr;
+//	for (i = 0; i < sz; i++)
+//	{
+//		printf("%d ", *(pp + i));
+//	}
+//	return 0;
+//}
+//void print1(int arr[3][5], int r, int c)
+//{
+//	int i = 0;
+//	for (i = 0; i < r; i++)
+//	{
+//		int j = 0;
+//		for (j = 0; j < c; j++)
+//		{
+//			printf("%d ", arr[i][j]);
+//		}
+//		printf("\n");
+//	}
+//}
+//void print2(int(*p)[5], int r, int c)//指向数组的指针，即这个指针指向的是一个整个数组
+////int (*p)[5]
+////p的类型是:int(*)[5]
+////p是指向一个整形数组的,数组5个元素 int [5]
+////p+1 -> 跳过一个5个int元素的数组
+//{
+//	int i = 0;
+//	for (i = 0; i < r; i++)
+//	{
+//		for (int j = 0; j < c; j++)
+//		{
+//			//printf("%d ", *(*(p + i) + j));
+//			//外层的那个*：*(*(p + i) + j)
+//			//*(p + i) + j 是第 i 行第 j 列元素的地址。
+//			//	再对其解引用 * ，就得到了第 i 行第 j 列的 ​值（int 类型）​。
+//			printf("%d ", p[i][j]);//运行结果与往上面3行那行一样
+//		}
+//		printf("\n");
+//	}
+//}
+//int main()
+//{
+//	int arr[3][5] = { 1,2,3,4,5,2,3,4,5,6,3,4,5,6,7 };
+//	print1(arr, 3, 5);
+//	printf("\n");
+//	//二维数组首元素是它的第一行
+//	print2(arr, 3, 5);
+//	//arr表示第一行的地址
+//	//第一行的地址是一个一维数组的地址
+//	return 0;
+//}
+//在 C/C++ 中，&数组名 和 数组名 看似相似，实则代表完全不同的含义，核心区别在于它们的类型和所表示的地址意义：
+//1. 数组名（如 arr）
+//类型：数组名在大多数语境下会被隐式转换为指向数组第一个元素的指针（即 “指针退化”），类型为 元素类型 * 。
+//例如：int arr[5]; 中，arr 会被转换为 int* 类型（指向 arr[0] 的指针）。
+//地址值：数组名表示的地址是数组第一个元素的起始地址。
+//例外情况：当数组名作为 sizeof、& （取地址符）的操作数时，不会发生指针退化，此时数组名代表整个数组。
+//2. & 数组名（如 & arr）
+//类型：表示指向整个数组的指针，类型为 元素类型(*)[数组长度]（数组指针）。
+//例如：int arr[5]; 中，& arr 的类型是 int(*)[5]（指向包含 5 个 int 的数组的指针）。
+//地址值： & arr 表示的地址和数组名（arr）的地址值在数值上相同（都是数组的起始地址），但含义完全不同：
+//arr 指向第一个元素（地址是元素的起点）。
+//& arr 指向整个数组（地址是数组整体的起点）。
+//比如arr[5]={1,2,3,4,5};
+//arr + 1 移动的步长是一个元素的大小（4 字节）。
+//& arr + 1 移动的步长是整个数组的大小（20 字节）。
+//二维数组数组名指的是二维数组中第一个数组的地址，一维数组数组名指的首元素地址，这两个分清楚就能理解这个了
+//int main()
+//{
+//	int arr[5];//
+//	int* parr1[10];//整形指针数组
+//	int (*parr2)[10];//数组指针
+//	int (*parr3[10])[5];//存放数组指针的数组
+//	return 0;
+//}
+//数组参数 指针参数
+//数组传参宗旨:形参,实参类型一致就可以了 
+//看手机的2025.11.16的截图
+//int main()
+//{
+//
+//	return 0;
+//}
+//函数指针 --> 指向函数的指针就是函数指针
+//数组指针 --> 再强调一遍  指向数组的指针就是数组指针
+// //							函数指针
+//int Add(int x, int y)
+//{
+//	return x + y;
+//}
+//int main()
+//{
+//	int arr[5] = { 0 };
+//	//&数组名-取出的数组的地址
+//	int (*p)[5] = &arr;
+//	//&函数名-取出的就是函数的地址
+//	printf("%p\n", &Add);
+//	printf("%p\n", Add);
+//	//对于函数来说,&函数名和函数名都是函数的地址
+//	//所以以下这两种写法一致
+//	int (*pf)(int, int) = &Add;
+//	int (*ppf)(int, int) = Add;
+//	int ret = (*pf)(2,3);//调用函数很神奇的一种写法
+//	int ret2 = ppf(3, 4);
+//	printf("%d\n", ret);
+//	printf("%d\n", ret2);
+//	return 0;
+//}
+//int Add(int x,int y)
+//{
+//	return x + y;
+//}
+//void calc(int(*pf(int, int)))
+//{
+//	int a = 3;
+//	int b = 5;
+//	int ret = pf(a, b);
+//	printf("%d\n", ret);
+//}
+//int main()
+//{
+//	calc(Add);
+//	return 0;
+//}
+//函数一定义就有地址了
+//二维数组传参时，除了第一维，后续维度长度必须在形参里写死或用宏 / 常量表达式。
+//例如 void bar(int arr[][COLS], int rows) 或 void baz(int (*arr)[COLS], int rows)
+//编译器需要这些信息计算 arr[i][j] 时的偏移量；不能只写 int** arr，因为那指向的是指针数组的指针，内存布局不同。
+//如果二维数组的列数在运行时才确定，可改用一维数组模拟：void bar(int* arr, int rows, int cols)，
+//访问时手动计算索引 arr[i * cols + j]；或者使用动态内存 + 指针数组，
+//每行单独 malloc 一段，再传 int** arr 并在函数内部按“指针数组”方式访问。
+//动态可变维度（C99 可变长数组, VLA）也可以：void bar(int rows, int cols, int arr[rows][cols])，
+//前提是编译器支持 C99。
+//简单示例：
+//void sum1d(int* arr, int n)
+//{
+//	int s = 0;
+//	for (int i = 0; i < n; i++)
+//	{
+//		s += arr[i];
+//	}
+//	printf("%d\n", s);
+//}
+//#define COLS 5
+//void print2d(int rows, int arr[][COLS])
+//{
+//	for (int i = 0; i < rows; i++)
+//	{
+//		for (int j = 0; j < COLS; j++)
+//		{
+//			printf("%d ", arr[i][j]);
+//		}
+//		printf("\n");
+//	}
+//}
+//调用时分别传 sum1d(a, n); 、print2d(r, matrix); 即可。
+//函数指针的使用
+//复习下
+//void test(const char* str)
+//{
+//	printf("test()\n");
+//	return 0;
+//}
+//int main()
+//{
+//	//函数指针 -> 也是一种指针,是指向函数的指针
+//	printf("%p\n", test);
+//	printf("%p\n", &test);
+//	int (*pf)(const char*) = test;
+//	(*pf)("abc");
+//	test("def");
+//	return 0;
+//}
+//两段有趣的代码 较为晦涩难懂
+//int main()
+//{
+//	( * ( void (*) () ) 0 );
+//	//将整数 0 强制转换为一个函数指针（无参数、返回 void），
+//	//然后试图调用该地址（0）处的函数。极其危险，通常导致崩溃。用于底层教学或特殊场景。
+//	return 0;
+//}
+//int main()
+//{
+//	void( *signal( int, void(*)(int) ) )  (int);
+//	//这是函数 signal的声明，它用于设置信号处理函数。
+//	//它接收一个信号编号和一个函数指针，返回之前的信号处理函数（也是一个函数指针）。
+//	//这是标准 C 库函数，用于信号处理（如 SIGINT）。
+//	//鹏哥理解:
+//	//signal是函数名,以上代码是一次函数声明
+//	//声明的signal函数的第一个参数的类型是int,第二个参数的类型是函数指针,该函数指针指向的函数参数是int,返回类型是void
+//	//signal函数的返回类型也是一个函数指针,该函数指针指向的函数参数也是int,返回类型也是void
+//	return 0;
+//}
+//typedef 原类型名 新类型名;
+//上面的代码晦涩难懂 下面就来简化一下
+//typedef void(*)(int)pf_t;//err
+//typedef void(*pf_t)(int);//right //把void(*)(int)重命名为pf_t
+//int main()
+//{
+//	//void(*signal(int, void(*)(int)))  (int);
+//	pf_t signal(int, pf_t);
+//	return 0;
+//}
+//函数指针的用途
+//做一个计算器
+//void menu(void)
+//{
+//	printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+//	printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+//	printf("@@@@@    1.Add       2.sub         @@@@@\n");
+//	printf("@@@@@    3.Mul       4.Div         @@@@@\n");
+//	printf("@@@@@         0.EXIT               @@@@@\n");
+//	printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+//	printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+//}
+//int Add(int x, int y)
+//{
+//	return x + y;
+//}
+//int Sub(int x, int y)
+//{
+//	return x - y;
+//}
+//int Mul(int x, int y)
+//{
+//	return x * y;
+//}
+//int Div(int x, int y)
+//{
+//	return x / y;
+//}
+//void calc(int (*pf)(int, int))
+//{
+//	int x;
+//	int y;
+//	int ret = 0;
+//	printf("请输入2个操作数:>\n");
+//	scanf("%d %d", &x, &y);
+//	ret = (*pf)(x, y);
+//	//ret = (pf)(x,y);
+//	printf("%d\n", ret);
+//	Sleep(1000);
+//	system("cls");
+//}
+//int main()
+//{
+//	int input = 0;
+//	do
+//	{
+//		menu();
+//		printf("请输入你要进行的操作对应的数\n");
+//		scanf("%d", &input);
+//		switch (input)
+//		{
+//		case 1:
+//			calc(Add);
+//			break;
+//		case 2:
+//			calc(Sub);
+//			break;
+//		case 3:
+//			calc(Mul);
+//			break;
+//		case 4:
+//			calc(Div);
+//			break;
+//		case 0:
+//			printf("退出程序\n");
+//			//Sleep(1000);
+//			system("cls");
+//			break;
+//		default:
+//			printf("选择错误请重新选择\n");
+//			//Sleep(1000);
+//			system("cls");
+//			break;
+//		}
+//	} while (input);
+//
+//	return 0;
+//}
+//函数指针的使用在大型工程经常使用
+//函数指针也是指针 把函数指针放在数组中就是函数指针数组
+//函数指针数组
+//int main()
+//{
+//	int (*pf)(int, int) = Add;
+//	int(*arr[4])(int, int) = { Add,Sub,Mul,Div };//函数指针数组
+//	int i = 0;
+//	for (i = 0; i < 4; i++)
+//	{
+//		int ret = arr[i](8, 4);
+//		printf("%d\n", ret);
+//	}
+//	return 0;
+//}
+//结合上面两个实现利用函数指针数组实现计算器
+//void menu(void)
+//{
+//	printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+//	printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+//	printf("@@@@@    1.Add       2.sub         @@@@@\n");
+//	printf("@@@@@    3.Mul       4.Div         @@@@@\n");
+//	printf("@@@@@         0.EXIT               @@@@@\n");
+//	printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+//	printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+//}
+//int Add(int x, int y)
+//{
+//	return x + y;
+//}
+//int Sub(int x, int y)
+//{
+//	return x - y;
+//}
+//int Mul(int x, int y)
+//{
+//	return x * y;
+//}
+//int Div(int x, int y)
+//{
+//	return x / y;
+//}
+//int main()
+//{
+//	int input;
+//	int x, y;
+//	int (*pfarr[5])(int, int) = { 0,Add,Sub,Mul,Div };
+//	//函数指针数组
+//  //转移表
+//	do {
+//		again:
+//		menu();
+//		printf("请输入你要进行的操纵\n");
+//		scanf("%d", &input);
+//		//简化代码避免不必要的冗余代码
+//		if (input == 0)
+//		{
+//			printf("退出星子计算器\n");
+//		}
+//		else if (input >= 1 && input <= 4)
+//		{
+//			printf("请输入两个整数\n");
+//			scanf("%d %d", &x, &y);
+//			int ret = pfarr[input](x, y);
+//			printf("%d\n", ret);
+//		}
+//		else
+//		{
+//			printf("选择错误请重新输入\n");
+//		}
+//	} while (input);
+//	do {
+//		printf("真的要退出吗\n");
+//		printf("Yes/No\n");
+//		char s[4];
+//		scanf("%s", &s);
+//		if (strcmp(s, "No"))
+//			return 0;
+//		else if (strcmp(s, "Yes"))
+//			goto again;
+//		else
+//		{
+//			printf("输入错误请重新输入\n");
+//		}
+//	} while (strcmp);
+//	return 0;
+//}
+//指向函数指针数组的指针
+//指向函数指针数组的指针是一个指针
+//指针指向一个数组,数组的元素是函数指针
+//int main()
+//{
+//	int (*pfarr[5])(int, int) = { 0 };
+//	int (*(*ppfarr[5]))(int, int) = &pfarr;
+//	return 0;
+//}
+//回调函数
+//回调函数：计算两个数的和
+//在 C 语言中，回调函数的实现依赖于函数指针（指向函数的指针变量），
+//通过将函数指针作为参数传递给其他函数，实现 “在特定时机调用该函数” 的逻辑。
+//核心步骤
+//1.定义回调函数：普通函数，用于实现具体逻辑。
+//2.声明函数指针类型：明确指针指向的函数的参数和返回值类型。
+//3.接收回调的函数：将函数指针作为参数，在内部通过指针调用回调函数。
+//int add(int a, int b) 
+//{
+//	return a + b;
+//}
+//// 回调函数：计算两个数的积
+//int multiply(int a, int b) 
+//{
+//	return a * b;
+//}
+//// 函数指针类型（参数为两个int，返回值为int）
+//typedef int (*MathOperation)(int, int);//为 "int (*)(int, int)" 定义别名 "MathOperation"
+//// 接收回调的函数：执行运算并打印结果
+//void calculate(int x, int y, MathOperation op) 
+//{
+//	int result = op(x, y); // 调用回调函数
+//	printf("结果：%d\n", result);
+//}
+//int main()
+//{
+//	calculate(3, 4, add);      // 输出：结果：7
+//	calculate(3, 4, multiply); // 输出：结果：12
+//	return 0;
+//}
+//冒泡再认识 关键字qsort
+//int bubble_sort(int arr[], int sz)
+//{
+//	int j = 0;
+//	//一趟冒泡排序
+//	for (j = 0; j < sz - 1; j++)
+//	{
+//		int flag = 1;
+//		for (int i = 0; i < sz - 1 - j; i++)
+//		{
+//			if (arr[i] > arr[i + 1])
+//			{
+//				int t = arr[i];
+//				arr[i] = arr[i + 1];
+//				arr[i + 1] = t;
+//				flag = 0;
+//			}
+//		}
+//		if (flag == 1)
+//			break;
+//	}
+//}
+//qsort库函数 使用快速排序的思想实现的一个排序函数
+//void qsort(
+//	void* base,//你要排序的数据的起始位置
+//	size_t num,//待排序的数据元素的个数
+//	size_t width,//待排序的数据元素的大小(单位是字节)
+//	int(__cdecl* compare)(const void* elem1, const void* elem2) //函数指针-比较函数
+//);
+//__cdecl 函数调用约定
+//int cmp_int(const void* e1, const void* e2)
+//{
+//	//e1 < e2 返回 <0
+//	//e1 = e2 返回  0
+//	//e1 > e2 返回 >0
+//	//if (*(int*)e1 > *(int*)e2)//所以这里强制类型转化为整形指针
+//	//{
+//	//	return 1;
+//	//}
+//	//else if (*(int*)e1 = *(int*)e2)//too
+//	//{
+//	//	return 0;
+//	//}
+//	//else
+//	//{
+//	//	return -1;
+//	//}
+//	//上面的写法过于啰嗦 下面写法简洁一点
+//	return (*(int*)e1 - *(int*)e2);
+//}
+//int main()
+//{
+//	int arr[] = { 6,7,8,9,99,4,3,2,1,0 };
+//	//把数组排成升序
+//	int sz = sizeof(arr) / sizeof(arr[0]);
+//	//bubble_sort(arr, sz);
+//	qsort(arr, sz, sizeof(arr[0]), cmp_int);//回调函数实现qsort qsort默认排升序
+//	for (int i = 0; i < sz; i++)
+//		printf("%d ", arr[i]);
+//	return 0;
+//}
+//void*是啥 
+//int main()
+//{
+//	int a = 10;
+//	char* pa = &a;//int *
+//	void* pv = &a;//void* 是无具体类型的指针,可以接受任意类型的地址
+//	//void*是无具体类型的指针,所以不能解引用,也不能+-指针
+//	return 0;
+//}
+//qsort和bubble_sort的进阶NB牛逼法 建议多加复习
+//里面的char* 函数指针与回调函数需要好好理解
+//struct Stu
+//{
+//	char name[20];
+//	int age;
+//};
+//int cmp_int(const void* e1, const void* e2)
+//{
+//	return (*(int*)e1 - *(int*)e2);//--> 把 e1 转成 int* 类型，再解引用，得到第一个整数
+//	//< 0：表示 e1 < e2，排序时 e1 会排在 e2 前面 ✅
+//	//== 0：e1 和 e2 相等，顺序无所谓
+//	//> 0：e1 > e2，e1 会排在 e2 后面 ✅
+//}
+//int cmp_Stu_by_age(const void* e1, const void* e2)
+//{
+//	//return strcmp(((struct Stu*)e1)->age, ((struct Stu*)e2)->age);
+//	return ((struct Stu*)e1)->age-((struct Stu*)e2)->age;
+//}
+//int cmp_Stu_by_name(const void* e1, const void* e2)
+//{
+//	//strcmp的返回值恰好是  --->  0 >0 <0 这三种
+//	//strcmp的大小比较逻辑是
+//	//abc                      --> 大
+//	//abbjhdjhjfoisjfoiejf     --> 小
+//	//按26位字母顺序来 称之为:字典序升序排序
+//	return strcmp(((struct Stu*)e1)->name, ((struct Stu*)e2)->name);
+//}
+//void swap(char* buf1, char* buf2, int width)
+//{
+//	for (int i = 0; i < width; i++)
+//	{
+//		char tmp = *buf1;
+//		*buf1 = *buf2;
+//		*buf2 = tmp;
+//		buf1++;
+//		buf2++;
+//	}
+//}
+//void bubble_sort(void* base, int sz, int width, int(*cmp)(const void* e1, const void* e2))
+//{
+//	int j = 0;
+//	//一趟冒泡排序
+//	for (j = 0; j < sz - 1; j++)
+//	{
+//		int flag = 1;
+//		for (int i = 0; i < sz - 1 - j; i++)
+//		{
+//			if (cmp((char*)base + i * width, (char*)base + (i + 1) * width) > 0)
+//			{
+//				swap((char*)base + i * width, (char*)base + (i + 1) * width, width);
+//				flag = 0;
+//			}
+//		}
+//		if (flag == 1)
+//			break;
+//	}
+//}
+//void test1()
+//{
+//	int arr[] = { 6,7,8,9,99,4,3,2,1,0 };
+//	int sz = sizeof(arr) / sizeof(arr[0]);
+//	qsort(arr, sz, sizeof(arr[0]), cmp_int);
+//	//bubble_sort(arr, sz, sizeof(arr[0]), cmp_int);
+//	for (int i = 0; i < sz; i++)
+//		printf("%d ", arr[i]);
+//	//return 0;
+//}
+//void test2()
+//{
+//	//使用qsort来排序结构数据
+//	struct Stu s[] = { {"zhangsan",15} ,{"lisi",30}, {"wangwu",25} };
+//	int sz = sizeof(s) / sizeof(s[0]);
+//	qsort(s, sz, sizeof(s[0]), cmp_Stu_by_name);
+//	printf("\n【test2】排序后的结构体数组（按 name）:\n");
+//	for (int i = 0; i < sz; i++)
+//	{
+//		printf("Name: %+10s, Age: %d\n", s[i].name, s[i].age);
+//	}
+//}
+//void test3()
+//{
+//	int arr[] = { 6,7,8,9,99,4,3,2,1,0 };
+//	int sz = sizeof(arr) / sizeof(arr[0]);
+//	bubble_sort(arr, sz, sizeof(arr[0]), cmp_int);
+//	for (int i = 0; i < sz; i++)
+//		printf("%d ", arr[i]);
+//	//return 0;
+//}
+//void test4()
+//{
+//	struct Stu s[] = { {"zhangsan",15} ,{"lisi",30}, {"wangwu",25} };
+//	int sz = sizeof(s) / sizeof(s[0]);
+//	bubble_sort(s, sz, sizeof(s[0]), cmp_Stu_by_age);
+//	printf("\n【test2】排序后的结构体数组（按 age）:\n");
+//	for (int i = 0; i < sz; i++)
+//	{
+//		printf("Name: %-10s, Age: %d\n", s[i].name, s[i].age);
+//	}
+//}
+//int main()
+//{
+//	test1();
+//	test2();
+//	test3();
+//	test4();
+//	return 0;
+//}
+//										指针	笔试题详解
+//要去画图 要去画图 要去画图
+//int main()
+//{
+//	int a[] = { 1,2,3,4 };
+//	//x86是4 x64是8
+//	printf("%d \n", sizeof(a));//16
+//	printf("%d\n", sizeof(a + 0));//4        
+//	//上面的a表示首元素的地址 a+0还是首元素的地址 所以是4
+//	//a   <==> &a[0]
+//	//a+0 <==> &a[0]+0
+//	printf("%d\n", sizeof(*a));//4        
+//	//*a中的a就是首元素的地址,*a就是对首元素地址的解引用,找到的就是首元素       
+//	printf("%d\n", sizeof(a + 1));//4     
+//	//a+1是第二个元素的地址 与上面同理   
+//	printf("%d\n", sizeof(a[1]));//4      
+//	printf("%d\n", sizeof(&a));//4  
+//	//&a取出的数组的地址,数组的地址,也就是个地址
+//	printf("%d\n", sizeof(*&a));//16         
+//	//这里的a是整个数组 
+//	//&a ----> int(*)[4]
+//	//是数组指针 解引用时访问整个数组
+//	//指针类型决定解引用时访问的字节数
+//	printf("%d\n", sizeof(&a + 1));//4       
+//	//&a+1取出整个数组的地址+1就是直接跳过了整个数组指向数组的最后面
+//	//&a--> int(*)[4]
+//	//&a+1 是从数组a的地址向后跳过了一个(4个整形元素)的数组的大小
+//	printf("%d\n", sizeof(&a[0]));//4       
+//	printf("%d\n", sizeof(&a[0] + 1));//4 
+//	//第二个元素的地址
+//	return 0;
+//}
+//与上面的对照参考一下
+//int main()
+//{
+//	char arr[] = { 'a','b','c','d','e','f' };
+//	//字符串才加\0
+//	printf("%d\n", sizeof(arr));//6
+//	printf("%d\n", sizeof(arr + 0));//4
+//	//32位系统中指针大小固定为4字节,64位系统会是 8 字节
+//	printf("%d\n", sizeof(*arr));//1
+//	printf("%d\n", sizeof(arr[1]));//1
+//	printf("%d\n", sizeof(&arr));//4
+//	printf("%d\n", sizeof(&arr + 1));//4
+//	printf("%d\n", sizeof(&arr[0] + 1));//4
+//	printf("%d\n", sizeof(arr[0]+1));//4
+//	//会发生整型提升 整形的话就是4个字节
+//}
+//int main()
+//{
+//	char arr[] = { 'a','b','c','d','e','f' };  // 无 '\0'，不是标准C字符串
+//	//strlen是求字符串长度的
+//	printf("%d\n", strlen(arr));//随机值 >=6
+//	printf("%d\n", strlen(arr + 0));//随机值 >=6
+//	//printf("%d\n", strlen(*arr));//strlen('a') --> strlen(97)   野指针
+//	//printf("%d\n", strlen(arr[1]));//strlen(98)                 野指针
+//	printf("%d\n", strlen(&arr));//随机值
+//	printf("%d\n", strlen(&arr + 1));//随机值-6
+//	printf("%d\n", strlen(&arr[0] + 1));//随机值-1
+//	//printf("%d\n", strlen(arr[0] + 1));//err
+//	//
+//	return 0;
+//}
+//int main()
+//{
+//	char arr[] = "abcdef";
+//	//[a b c d e f \0]
+//	printf("%d\n", sizeof(arr));//7
+//	printf("%d\n", sizeof(arr + 0));//4/8
+//	printf("%d\n", sizeof(*arr));//1
+//	printf("%d\n", sizeof(arr[1]));//1
+//	printf("%d\n", sizeof(&arr));//4/8
+//	printf("%d\n", sizeof(&arr + 1));//4/8
+//	printf("%d\n", sizeof(&arr[0] + 1));//4/8
+//
+//	printf("%d\n", strlen(arr));        // 6
+//	printf("%d\n", strlen(arr + 0));    // 6
+//	//printf("%d\n", strlen(*arr));       // 编译警告/运行崩溃（危险！）
+//	//printf("%d\n", strlen(arr[1]));     // 编译警告/运行崩溃（危险！）
+//	printf("%d\n", strlen(&arr));       // 6
+//	printf("%d\n", strlen(&arr + 1));   // 随机值（越界）
+//	printf("%d\n", strlen(&arr[0] + 1));// 5
+//
+//	printf("\n");
+//
+//	char* p = "abcdef";//       
+//	printf("%d\n", sizeof(p));//4
+//	printf("%d\n", sizeof(p + 1));//4
+//	printf("%d\n", sizeof(*p));//1 对char*类型解引用
+//	printf("%d\n", sizeof(p[0]));//1
+//	printf("%d\n", sizeof(&p));//4 二级指针
+//	printf("%d\n", sizeof(&p + 1));//4
+//	printf("%d\n", sizeof(&p[0] + 1));//4
+//
+//	printf("\n");
+//
+//	printf("%d\n", strlen(p));//6
+//	printf("%d\n", strlen(p + 1));//5
+//	//printf("%d\n", strlen(*p));//err     野指针
+//	//printf("%d\n", strlen(p[0]));//err   野指针
+//	printf("%d\n", strlen(&p));//随机值    二级指针
+//	printf("%d\n", strlen(&p + 1));//随机值
+//	printf("%d\n", strlen(&p[0] + 1));//5
+//	//p[0]：        等价于 *(p + 0)，即 p 指向的字符串首元素 'a'（因为 p 存的是 'a' 的地址）；
+//	//&p[0]：       取 'a' 的地址，本质和 p 完全等价（ & p[0] == p），类型是 char* ，指向 'a'；
+//	//& p[0] + 1：  字符指针加法，偏移量 = 1 字节（char 类型大小），
+//	//              所以指向 'a' 后面的第一个元素 'b'（地址 = 'a' 的地址 + 1）。
+//
+//	//二维数组
+//	int a[3][4] = { 10 };
+//	//口口口口
+//	//口口口口
+//	//口口口口
+//	printf("%d\n", sizeof(a));//48
+//	printf("%d\n", sizeof(a[0][0]));//4
+//	printf("%d\n", sizeof(a[0]));//16 a[0]表示第一个整个的这个一维数组
+//	printf("%d\n", sizeof(a[0] + 1));//4  &a[0][0]+1
+//	//这里的a是首元素的地址 表示第一行的一个元素的地址 a[0]+1就是第一行第二列的地址
+//	printf("%d\n", sizeof(*(a[0] + 1)));//4
+//	printf("%d\n", sizeof(a + 1));//4
+//	//a+1是第二行的地址
+//	printf("%d\n", sizeof(*(a + 1)));//16
+//	//*(a+1) --> a[1]
+//	printf("%d\n", sizeof(&a[0] + 1));//4
+//	printf("%d\n", sizeof(*(&a[0] + 1)));//16
+//	printf("%d\n", sizeof(*a));//16
+//	printf("%d\n", sizeof(a[3]));//16
+//
+//	return 0;
+//}
+//struct Test
+//{
+//	int num;
+//	char* pcname;
+//	short sDate;
+//	char cha[2];
+//	short sBa[4];
+//}*p = (struct Test*)0x100000;
+////已知上面这个是结构体大小是20个字节
+//int main()
+//{
+//	printf("%p\n", p + 0x1); //00100014
+//	//0x100000+20 -->0x100014
+//	printf("%p\n", (unsigned long)p + 0x1);//00100001
+//	//1,048,576+1 --> 1,048,577
+//	//0x100001
+//	printf("%p\n", (unsigned int*)p + 0x1);//00100004
+//	//0x100000+4 ---> 0x100004
+//	return 0;
+//}
+//int main()
+//{
+//	int a[4] = { 1,2,3,4 };
+//	int* ptr1 = (int*)(&a + 1);//00 00 00 04
+//	//VS是小端存储模式
+//	int* ptr2 = (int*)((int)a + 1);//02 00 00 00
+//	//00 00 00 01 --> 00 00 00 02
+//	//02 00 00 00
+//	printf("%x %x", ptr1[-1], *ptr2);//4     02 00 00 00
+//	return 0;
+//}
+//int main()
+//{
+//	int a[3][2] = { (0,1),(2,3),(4,5) };
+//	//数组内容是  因为是小括号不是大括号 是逗号表达式 一个小坑
+//	// 1 3 5
+//	// 0 0 0
+//	int* p;
+//	p = a[0];
+//	printf("%d", p[0]);//1
+//	return 0;
+//}
+//int main()
+//{
+//	//下面这题很难
+//	int a[5][5];
+//	int (*p)[4];
+//	p = a;
+//	//a --> int(*)[5]
+//	//p --> int(*)[4]
+//	printf("%p,%d\n", &p[4][2] - &a[4][2], &p[4][2] - &a[4][2]);
+//	//FFFFFFFC,-4
+//
+//	//这道简单一点
+//	int aa[2][5] = { 1,2,3,4,5,6,7,8,9,10 };
+//	// 1 2 3 4 5
+//	// 6 7 8 9 10
+//	int* ptr1 = (int*)(&aa + 1);//
+//	int* ptr2 = (int*)(*(aa + 1));//
+//	printf("%d,%d", *(ptr1 - 1), *(ptr2 - 1));//10 5
+//
+//	return 0;
+//}
+//int main()
+//{
+//	char* a[] = { "work","at","alibaba" };//指针数组
+//	char** pa = a;//
+//	pa++;
+//	printf("%s\n", *pa);//at
+//	return 0;
+//}
+//终极指针题 难度很大 
+//int main()
+//{
+//	char* c[] = { "ENTER","NEW","POINT","FIRST" };//指针数组
+//	char** cp[] = { c + 3,c + 2,c + 1,c };
+//	char*** cpp = cp;
+//
+//	printf("%s\n", **++cpp);//POINT   这里++ --会改变了指针的位置
+//	printf("%s\n", *-- * ++cpp + 3);//ER
+//	printf("%s\n", *cpp[-2] + 3);//ST
+//	//* *(cpp-2)+3
+//	printf("%s\n", cpp[-1][-1] + 1);//EW
+//	//*(*(cpp-1)-1)+1
+//	return 0;
+//}
+//字符函数和字符串函数
+//求字符串长度
+//strlen
+//长度不受限的字符串函数
+//strcpy
+//strcat
+//strcmp
+//长度受限的字符串函数介绍
+//strncpy
+//strncat
+//strncmp
+//字符串查找
+//strstr
+//strtok
+//错误信息报告
+//strerror
+//字符操作
+//内存操作函数
+//memcpy
+//memmove
+//memset
+//memcmp
+//下面计数器方法实现my_strlen
+//还可以用指针-指针
+//
+//size_t my_strlen(const char* str)
+//{
+//	assert(str);//确保不是空指针
+//	size_t count = 0;
+//	while (*str != '\0')
+//	{
+//		count++;
+//		str++;
+//	}
+//	return count;
+//}
+//复习strlen
+//int main()
+//{
+//	
+//	//strlen 返回值是size_t 其实就是unsigned int
+//	char arr1[] = { "abcdef" };
+//	char arr2[] = { 'a','b','c' };
+//	int len1 = strlen(arr1);//6
+//	int len2 = strlen(arr2);//向后一直找到\0
+//	printf("%d\n%d\n", len1, len2);//6 >3的随机值
+//	if ((strlen("abc") - strlen("abcdef")) > 0)
+//	{
+//		//相减的-3被当无符号整形来理解 所以是大于
+//		printf(">\n");//✔
+//	}
+//	else
+//		printf("<\n");//×
+//	char arr[] = "abcdef";
+//	size_t n = my_strlen(arr);
+//	printf("%u\n", n);
+//	return 0;
+//}
+//strcpy
+//int main()
+//{
+//	char name[20] = { 0 };
+//	strcpy(name,"zhangsan");
+//	//拷贝遇到\0就结束了
+//	//但是也会拷贝\0
+//	//目标空间必须足够大，以确保能放得下源字符串
+//	//目标空间必须可变
+//  //strcpy返回的是目标空间的起始地址
+//	printf("%s\n", name);
+//	return 0;
+//}
+//char* my_strcpy(char* arr2, const char* arr1)
+//{
+//	assert(arr1&&arr2);
+//	char* ret=arr1;
+//	while (*arr2++ = *arr1++)
+//	{
+//		;
+//	}
+//	//*arr2 = *arr1;//\0
+//	return ret;
+//}
+//int main()
+//{
+//	char arr1[] = "abcdef";
+//	char arr2[20] = { 0 };
+//	my_strcpy(arr2, arr1);
+//	printf("%s", arr2);
+//	return 0;
+//}
+//字符串追加strcat
+//char* my_strcat(char*arr1,const char* src)
+//{
+//	assert(arr1 && src);
+//	char* ret = arr1;
+//	//先找到目标空间的末尾
+//	while (*arr1 != '\0')
+//	{
+//		arr1++;
+//	}
+//	//while(*arr1++ = *src++)
+//	//	;
+//	//再拷贝过去
+//	while (*src != '\0')
+//	{
+//		*arr1 = *src;
+//		arr1++;
+//		src++;
+//	}
+//	return ret;
+//}
+//int main()
+//{
+//	char arr1[25] = "Hello ";
+//	strcat(arr1, "World!");
+//	printf("%s\n", arr1);
+//	my_strcat(arr1," XZ_yu");
+//	//需要注意的是 被追加的字符串要预留足够的空间
+//	//追加到\0时停止
+//	printf("%s\n", arr1);
+//	my_strcat(arr1, arr1);
+//	printf("%s\n", arr1);
+//	return 0;
+//}
+//strcmp
+//比较两个字符串
+//int strcmp( const char *string1, const char *string2 )
+//比较一下两个字符串是否相等
+//string1 < string2 返回<0的数字
+//string1 0 string2 返回 0
+//string1 > string2 返回>0的数字
+//my_strcmp版本一 法一
+//int my_strcmp(char* str1, const char* str2)
+//{
+//	assert(str1 && str2);
+//	while (*str1 == *str2)
+//	{
+//		if (*str1 == '\0')
+//			return 0;
+//		str1++;
+//		str2++;
+//	}
+//	if (*str1 > *str2)
+//		return 1;
+//	else
+//		return -1;
+//}
+//my_strcmp版本二 法二
+//int my_strcmp(char* str1, const char* str2)
+//{
+//	assert(str1 && str2);
+//	while (*str1 == *str2)
+//	{
+//		if (*str1 == '\0')
+//			return 0;
+//		str1++;
+//		str2++;
+//	}
+//	return (*str1 - *str2);
+//}
+//int main()
+//{
+//	char arr1[] = "zhangsan";
+//	char arr2[] = "zhangsanfeng";
+//	int ret1 = strcmp(arr1, arr2);
+//	if (ret1 == 0)
+//		printf("相等\n");
+//	else if (ret1 > 0)
+//		printf(">\n");
+//	else
+//		printf("<\n");//✔😊
+//
+//	char arr7[] = "zhangsan";
+//	char arr8[] = "zhangsanfeng";
+//	int ret4 = my_strcmp(arr7, arr8);
+//	if (ret4 == 0)
+//		printf("相等\n");
+//	else if (ret4 > 0)
+//		printf(">\n");
+//	else
+//		printf("<\n");//✔😊
+//
+//	char arr3[] = { "abd" };
+//	char arr4[] = { "b" };
+//	int ret2 = strcmp(arr3, arr4);
+//	if (ret2 == 0)
+//		printf("相等\n");
+//	else if (ret2 > 0)
+//		printf(">\n");
+//	else
+//		printf("<\n");//✔😊
+//
+//	char arr5[] = { "a" };
+//	char arr6[] = { "A" };
+//	int ret3 = strcmp(arr5, arr6);
+//	if (ret3 == 0)
+//		printf("相等\n");
+//	else if (ret3 > 0)
+//		printf(">\n");//✔😊
+//	else
+//		printf("<\n");
+//
+//	return 0;
+//}
+//长度受限的字符串函数介绍
+//strncpy
+//strncat
+//strncmp
+//int main()
+//{
+//	char arr1[20] = "abcdef";
+//	char arr2[] = "hello bit";
+//	//strcpy(arr1, arr2);
+//	strncpy(arr1, arr2, 5);
+//	//这里要保证arr2的字符数量大于5
+//	//比strcpy多了一个size_t num这个参数
+//	printf("%s\n", arr1);
+//	return 0;
+//}
+//strncat和strncmp也是同理
+//strstr函数
+//查找子串的一个函数
+//str1里面查找str2这个子串并返回子串所在字符所在的第一个地址
+//查找不到就返回空指针NULL 只要str2里面有一个字符和str1不一样就会返回NULL
+char* my_strstr(char* str1, const char* str2)
+{
+	assert(str1 && str2);
+	const char* s1 = str1;
+	const char* s2 = str2;
+	const char* p = str1;
+	while (*p)
+	{
+		s1 = p;
+		s2 = str2;
+		while (*s1 != '\0' && *s2 != '\0' && *s1 == *s2)
+		{
+			s1++;
+			s2++;
+		}
+		if (*s2 == '\0')
+			return p;
+		p++;
+	}
+	return NULL;
+}
+void print(char* p)
+{
+	while (*p != '\0')
+	{
+		printf("%c", *p);
+		p++;
+	}
+	printf("\n");
+}
 int main()
 {
-
+	char email[] = "zpw@bitejiuyeke.com";
+	char substr1[] = ".com";
+	char substr2[] = "@bitejiuyeke";
+	char* p1 = my_strstr(email, substr1);
+	char* p2 = strstr(email, substr2);
+	if (p1 == NULL)
+		printf("子串不存在\n");
+	else
+	{
+		print(p1);
+	}
+	if (p2 == NULL)
+		printf("子串不存在\n");
+	else
+	{
+		print(p2);
+	}
 	return 0;
 }
 
 
-//                                     四级:11.22口语  12.13早上笔试  
-//									   蓝桥杯报名  ACM三轮选拔11.13 14.30-17.00   linux
-//									  easyX 控制台 swing 文件流 数据库 shutdown命令 句柄 wmare workstation
-//									  Git  PTA上50题 洛谷200题 LeetCode 汉诺塔(小游戏)
-//									  英语四级 班主任的科研组 《函数栈帧的创建与销毁》
-//									  C语言之后  数据结构 算法 《剑指offer》
-//大一上： 1.C语言 中国大学MOOC 翁恺
-//	    2.《C primer plus》
-//	    3.大概学到指针和结构体
-//	    4.菜鸟教程（https://www.runoob.com/）
-//	    5.B站（C语言小项目）
+/*											  四级:   12.13早上笔试
+									   蓝桥杯报名  ACM三轮选拔周日 14.30-17.00   linux
+									  easyX 控制台 swing 文件流 数据库 shutdown命令 句柄 wmare workstation
+									  Git  PTA上50题 洛谷200题 LeetCode 汉诺塔(小游戏)
+									  英语四级 班主任的科研组 《函数栈帧的创建与销毁》
+							 C语言之后(指针 结构体 动态内存管理)  数据结构 算法 《剑指offer》
+大一上  1.C语言 中国大学MOOC 翁恺
+		2.《C primer plus》
+		3.大概学到指针和结构体
+		4.菜鸟教程（https://www.runoob.com/）
+		5.B站（C语言小项目）
+*/
