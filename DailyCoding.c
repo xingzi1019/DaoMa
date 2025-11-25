@@ -6655,57 +6655,181 @@ sizeof
 //查找子串的一个函数
 //str1里面查找str2这个子串并返回子串所在字符所在的第一个地址
 //查找不到就返回空指针NULL 只要str2里面有一个字符和str1不一样就会返回NULL
-char* my_strstr(char* str1, const char* str2)
-{
-	assert(str1 && str2);
-	const char* s1 = str1;
-	const char* s2 = str2;
-	const char* p = str1;
-	while (*p)
-	{
-		s1 = p;
-		s2 = str2;
-		while (*s1 != '\0' && *s2 != '\0' && *s1 == *s2)
-		{
-			s1++;
-			s2++;
-		}
-		if (*s2 == '\0')
-			return p;
-		p++;
-	}
-	return NULL;
-}
-void print(char* p)
-{
-	while (*p != '\0')
-	{
-		printf("%c", *p);
-		p++;
-	}
-	printf("\n");
-}
+//char* my_strstr(char* str1, const char* str2)
+//{
+//	assert(str1 && str2);
+//	const char* s1 = str1;
+//	const char* s2 = str2;
+//	const char* p = str1;
+//	while (*p)
+//	{
+//		s1 = p;
+//		s2 = str2;
+//		while (*s1 != '\0' && *s2 != '\0' && *s1 == *s2)
+//		{
+//			s1++;
+//			s2++;
+//		}
+//		if (*s2 == '\0')
+//			return (char*)p;
+//		p++;
+//	}
+//	return NULL;
+//}
+//void print(char* p)
+//{
+//	while (*p != '\0')
+//	{
+//		printf("%c", *p);
+//		p++;
+//	}
+//	printf("\n");
+//}
+//int main()
+//{
+//	char email[] = "zpw@bitejiuyeke.com";
+//	char substr1[] = ".com";
+//	char substr2[] = "@bitejiuyeke";
+//	char* p1 = my_strstr(email, substr1);
+//	char* p2 = strstr(email, substr2);
+//	if (p1 == NULL)
+//		printf("子串不存在\n");
+//	else
+//	{
+//		print(p1);
+//	}
+//	if (p2 == NULL)
+//		printf("子串不存在\n");
+//	else
+//	{
+//		print(p2);
+//	}
+//	return 0;
+//}
+//strtok
+//char *strtok( char *strToken, const char *strDelimit )
+//切割字符串
+//第一个参数是被分割的字符串 第二个参数是用作分隔符的字符集合
+//但是会把分隔符改成\0并返回子串的首字符地址
+//strtok函数找到str中的下一个标记并将其用\0结尾，返回一个指向这个标记的指针。
+//（注：strtok函数会改变被操作的字符串，所以在使用strtok函数切分的字符串一般都是临时拷贝的内容并且可修改。)
+//strtok函数的第一个参数不为NULL，函数将找到str中第一个标记，strtok函数将保存它在字符串
+//中的位置。
+//strtok函数的第一个参数为NULL，函数将在同一个字符串中被保存的位置开始，查找下一个标记。
+//如果字符串中不存在更多的标记，则返回NULL指针
+//int main()
+//{
+//	char email[] = "xingzi1019@qq.com.net";
+//	char cp[40] = { 0 };
+//	const char* sep1 = "@.";
+//	strcpy(cp, email);
+//
+//	/*char* ret1=strtok(cp, sep1);
+//	printf("%s\n", ret1);
+//	ret1 = strtok(NULL, sep1);
+//	printf("%s\n", ret1);
+//	ret1 = strtok(NULL, sep1);
+//	printf("%s\n", ret1);*/
+//	char* ret = NULL;
+//	for (ret = strtok(cp, sep1); ret != NULL; ret = strtok(NULL, sep1))
+//	{
+//		printf("%s\n", ret);
+//	}
+//
+//	return 0;
+//}
+//strerror
+//char* strerror( int errnum)
+//返回错误码所对应的错误消息
+//C语言的库函数,在执行失败的时候,都会设置错误码
+//int main()
+//{
+//	printf("%s\n", strerror(0));//No error
+//	printf("%s\n", strerror(1));//Operation not permitted
+//	printf("%s\n", strerror(2));//No such file or directory
+//	printf("%s\n", strerror(3));//No such process
+//	printf("%s\n", strerror(4));//Interrupted function call
+//	printf("%s\n\n", strerror(5));//Input/output error
+//
+//	//errno -C语言设置的一个全局的错误码存放的变量
+//	FILE* pf = fopen("C:\\Users\\ROGxingzi\\Desktop\\test.txt","r");//绝对路径
+//	if (pf == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//		return 1;
+//	}
+//	else
+//	{
+//		;
+//	}
+//	FILE* pf2 = fopen("test.txt", "r");//相对路径
+//	if (pf2 == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//		return 1;
+//	}
+//	else
+//	{
+//		;
+//	}
+//	return 0;
+//}
+//字符分类函数
+//iscontrl
+//isspace
+//isdigit
+//isxdigit
+//islower
+//isupper
+//isalpha
+//isalnum
+//ispunct
+//isgraph
+//字符转换
+//tolower
+//toupper
+//介绍memcpy 内存拷贝函数
+//void *memcpy(void *dest, const void *src, size_t n)
+//void* my_memcpy(void* dest, const void* src, size_t num)
+//{
+//	assert(dest && src);
+//	void* ret = dest;
+//	while (num--)
+//	{
+//		*(char*)dest = *(char*)src;
+//		dest = (char*)dest + 1;
+//		src = (char*)src + 1;
+//	}
+//	return ret;
+//}
+//int main()
+//{
+//	int src[] = { 1, 2, 3, 4, 5 };
+//	int dest[5];
+//	memcpy(dest, src, sizeof(src));
+//	for (int i = 0; i < 5; i++)
+//	{
+//		printf("%d ", dest[i]);
+//	}
+//
+//	printf("\n");
+//
+//	int src2[] = { 1, 2, 3, 4, 5 };
+//	int dest2[5];
+//	my_memcpy(dest2, src2, sizeof(src2));
+//	for (int i = 0; i < 5; i++)
+//	{
+//		printf("%d ", dest2[i]);
+//	}
+//	return 0;
+//}
+//内存函数
 int main()
 {
-	char email[] = "zpw@bitejiuyeke.com";
-	char substr1[] = ".com";
-	char substr2[] = "@bitejiuyeke";
-	char* p1 = my_strstr(email, substr1);
-	char* p2 = strstr(email, substr2);
-	if (p1 == NULL)
-		printf("子串不存在\n");
-	else
-	{
-		print(p1);
-	}
-	if (p2 == NULL)
-		printf("子串不存在\n");
-	else
-	{
-		print(p2);
-	}
+
 	return 0;
 }
+
 
 
 /*											  四级:   12.13早上笔试

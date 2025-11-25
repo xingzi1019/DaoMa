@@ -2,6 +2,7 @@
 
 #include <assert.h>//assert
 #include <ctype.h>//islower isupper toupper tolower
+#include <errno.h>
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
