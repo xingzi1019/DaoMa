@@ -6972,16 +6972,94 @@ sizeof
 //小乐乐喜欢数字，尤其喜欢0和1
 //他现在得到了一个数，想把每位的数变成0或1
 //如果某一位是奇数，就把它变成1，如果是偶数，那么就把它变成0。请你回答他最后得到的数是多少。
-void* transform(char arr[])
+//自己的法一:
+//void* transform(char* arr)
+//{
+//	while (*arr != '\0')
+//	{
+//		int num = *arr - '0';
+//		if (num % 2 == 0)
+//		{
+//			*arr = '0';
+//		}
+//		else
+//		{
+//			*arr = '1';
+//		}
+//		arr++;
+//	}
+//}
+//int main()
+//{
+//	char arr[1001] = "3333333333";
+//	scanf("%s", arr);
+//	transform(arr);
+//	printf("%s\n", arr);
+//	return 0;
+//}
+//AI优化的法二
+//void transform(char* arr)
+//{
+//	while (*arr != '\0')
+//	{
+//		int num = *arr - '0';
+//		*arr = (num % 2 == 0) ? '0' : '1';
+//		arr++;
+//	}
+//}
+//
+//int main()
+//{
+//	char arr[1001];
+//	scanf("%s", arr);
+//	transform(arr);
+//	printf("%s\n", arr);
+//	return 0;
+//}
+//鹏哥的法三
+//int main()
+//{
+//	int input = 0;
+//	int sum = 0;
+//	scanf("%d", &input);
+//	//12345
+//	int i = 0;
+//	while (input != 0)
+//	{
+//		int bit = input % 10;
+//		if (bit % 2 == 1)
+//		{
+//			sum = sum + 1 * pow(10, i);
+//			i++;
+//		}
+//		else
+//		{
+//			sum = sum + 0 * pow(10, i);
+//			i++;
+//		}
+//		input = input / 10;
+//	}
+//	printf("%d\n", sum);
+//	return 0;
+//}
+//法四
+int main() 
 {
-	char left = arr;
-
-}
-int main()
-{
-	char arr[10] = { '0' };
-	scanf("%s", &arr);
-	transform(arr);
+	int input = 0;
+	int sum = 0;
+	int multiplier = 1;
+	scanf("%d", &input);
+	while (input != 0) 
+	{
+		// 使用位运算判断奇偶，效率最高
+		if ((input % 10) & 1) 
+		{
+			sum += multiplier;
+		}
+		multiplier *= 10;
+		input /= 10;
+	}
+	printf("%d\n", sum);
 	return 0;
 }
 
