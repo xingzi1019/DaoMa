@@ -6823,13 +6823,167 @@ sizeof
 //	}
 //	return 0;
 //}
+//VS对memcpy有升级处理
 //内存函数
+//int main()
+//{
+//	int arr1[] = { 1,2,3,4,5,6,7,8,9,10 };
+//	int sz = sizeof(arr1) / sizeof(arr1[0]);
+//	int arr2[20] = { 0 };
+//	memcpy(arr2, arr1, sz * 4);
+//
+//	for (int i = 0; i < sz; i++)
+//	{
+//		printf("%d ", arr2[i]);
+//	}
+//	return 0;
+//}
+//使用memmove来实现重叠内存之间的数据拷贝
+//安全可靠：     memmove被专门设计用来处理源和目标内存块存在重叠的情况。
+//结果定义明确： 无论内存是否重叠，memmove都能保证复制的结果是正确的。它会采取必要的策略来避免覆盖还未被复制的数据。
+//void* my_memmove(void* dest, const void* src, size_t num)
+//{
+//	assert(dest && src);
+//	void* ret = dest;
+//	if (dest < src)
+//	{
+//		//从前往后拷贝和memcpy一样
+//		void* ret = dest;
+//		while (num--)
+//		{
+//			*(char*)dest = *(char*)src;
+//			dest = (char*)dest + 1;
+//			src = (char*)src + 1;
+//		}
+//	}
+//	else
+//	{
+//		//从后往前拷贝
+//		while (num--)
+//		{
+//			*((char*)dest + num) = *((char*)src + num);
+//			//鹏哥还是太牛逼了 很强的代码
+//		}
+//	}
+//	return ret;
+//}
+//void test1()
+//{
+//
+//}
+//void test2()
+//{
+//
+//}
+//void test3()
+//{
+//	int arr1[] = { 1,2,3,4,5,6,7,8,9,10 };
+//	my_memmove(arr1 + 2, arr1, 20);
+//	int i = 0;
+//	for (i = 0; i < 10; i++)
+//	{
+//		printf("%d ", arr1[i]);
+//	}
+//}
+//int main()
+//{
+//	test2();
+//	test3();
+//	return 0;
+//}
+//memcmp
+//int memcmp(const void *ptr1, const void *ptr2, size_t n)
+//按字节比较：memcmp逐字节地比较两个内存块。
+//指定比较长度：它需要一个明确的参数 n来指定要比较多少个字节。
+//返回值含义：返回一个整数，表示比较结果：
+//返回值 < 0：在第一个不匹配的字节处，ptr1的字节小于 ptr2的字节。
+//返回值 == 0：两个内存块的前 n个字节完全相同。
+//返回值 > 0：在第一个不匹配的字节处，ptr1的字节大于 ptr2的字节。
+//不关心数据类型：它将内存视为纯粹的字节序列，不关心这些字节构成的是 int、float还是其他数据结构。
+//不停止于 \0：即使遇到字节 0（空字符），只要没比较完 n个字节，就会继续比较。
+//int main()
+//{
+//	int arr1[] = { 1,2,3,4,5 };
+//	//01 00 00 00 02 00 00 00 03 00 00 00 04 00 00 00 05 00 00 00
+//	int arr2[] = { 1,2,2 };
+//	//01 00 00 00 03 00 00 00 02 00 00 00
+//	int ret = memcmp(arr1, arr2, 12);
+//	printf("%d\n", ret);
+//	return 0;
+//}
+//memset
+//void *memset(void *ptr, int value, size_t n)
+//按字节设置：    memset以字节为单位进行操作。它将指针所指向的内存块的每一个字节都设置为给定的值 value。
+//设置整个区域：  它需要一个明确的参数 n来指定要设置的字节数。
+//返回值：       返回指向目标内存区域 ptr的指针
+//需要注意的是他是按字节来操作的
+// 用法一:初始化数组某些元素的初始值
+//int main()
+//{
+//	int arr1[] = { 1,2,3,4,5,6,7,8,9,10 };
+//	int sz = sizeof(arr1) / sizeof(arr1[0]);
+//	memset(arr1, 0, 16);
+//	for (int i = 0; i < sz; i++)
+//	{
+//		printf("%d ", arr1[i]);
+//	}
+//	return 0;
+//}
+//#define BUFFER_SIZE 16
+//int main()
+//{
+//	char buffer[BUFFER_SIZE];
+//	// 场景 1: 创建一个重复的字节模式 (例如，用于测试)
+//	memset(buffer, 'A', BUFFER_SIZE - 1); // 填充 'A'
+//	buffer[BUFFER_SIZE - 1] = '\0';       // 手动添加字符串结束符
+//	printf("Pattern buffer: %s\n", buffer); // 输出: AAAAAAAAAAAAAAA
+//	// 场景 2: 在已知大小的结构体中清零
+//	struct Point
+//	{
+//		int x, y;
+//		char label[10];
+//	}; 
+//	struct Point p1;
+//	memset(&p1, 0, sizeof(p1)); //将所有成员（包括可能的填充字节）清零
+//	printf("Point p1 after memset: x=%d, y=%d\n", p1.x, p1.y); // 输出: x=0, y=0
+//	// 场景 3: 重置动态分配的内存
+//	char* dynamic_buffer = malloc(BUFFER_SIZE);
+//	strcpy(dynamic_buffer, "Some data");
+//	printf("Before reset: %s\n", dynamic_buffer);
+//	memset(dynamic_buffer, 0, BUFFER_SIZE); // 安全地清空缓冲区
+//	printf("After reset: %s\n", dynamic_buffer); // 输出为空字符串
+//	free(dynamic_buffer);
+//	return 0;
+//}
+//int main()
+//{
+//	//char arr[] = "hello bit";
+//	//memset(arr + 6, 'x', 3);
+//	//printf("%s\n", arr);
+//	int arr[10] = { 0 };
+//	memset(arr, 1, 40);
+//	for (int i = 0; i < 10; i++)
+//	{
+//		printf("%d ", arr[i]);
+//	}
+//	return 0;
+//}
+//作业来喽
+//小乐乐喜欢数字，尤其喜欢0和1
+//他现在得到了一个数，想把每位的数变成0或1
+//如果某一位是奇数，就把它变成1，如果是偶数，那么就把它变成0。请你回答他最后得到的数是多少。
+void* transform(char arr[])
+{
+	char left = arr;
+
+}
 int main()
 {
-
+	char arr[10] = { '0' };
+	scanf("%s", &arr);
+	transform(arr);
 	return 0;
 }
-
 
 
 /*											  四级:   12.13早上笔试
