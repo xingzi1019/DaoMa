@@ -7358,9 +7358,193 @@ sizeof
 //
 //	return 0;
 //}
+//左旋转字符串的k个字符
+//鹏哥版本的旋转字符
+//void left_rotate(char arr[], int k)
+//{
+//	int i = 0;
+//	int len = strlen(arr);
+//	//旋转k个字符
+//	for (i = 0; i < k; i++)
+//	{
+//		//旋转一个字符
+//		//1
+//		char tmp = arr[0];
+//		//2
+//		int j = 0;
+//		//挪动后面的使其往前
+//		for (j = 0; j < len - 1; j++)
+//		{
+//			arr[j] = arr[j + 1];
+//		}
+//		//3
+//		arr[len - 1] = tmp;
+//	}
+//}
+//int main()
+//{
+//	char arr[] = "abcdef";
+//	int sz = strlen(arr);
+//	int k = 0;
+//	scanf("%d", &k);
+//	//朱子峰提出的if else优化
+//	//也可以在left_rotate里面补充 K = k % len
+//	//这样子可以省去if else 的判断
+//	if (k == sz)
+//	{
+//		;
+//	}
+//	else if (k > sz)
+//	{
+//		left_rotate(arr, k - sz);
+//	}
+//	else
+//		left_rotate(arr, k);
+//	printf("%s\n", arr);
+//	return 0;
+//}
+//开学那会ACM教练提到的转置方法 先把字符串分割成两部分 然后两个子串分别转置 最后两个子串合成一个子串后集体再转置
+//很巧妙的一个方法  过程如下
+//abcdef
+//ba fedc
+//cdefab
+//void reverse(char* left, char* right)
+//{
+//	//abcdef
+//	//abcde
+//	assert(left && right);
+//	while (left++ < right--)
+//	{
+//		char tmp = *left;
+//		*left = *right;
+//		*right = tmp;
+//	}
+//}
+//void left_rotate(char arr[], int k)
+//{
+//	int len = strlen(arr);
+//	k = k % len;//不加会越界访问
+//	//逆序左边
+//	reverse(arr, arr + k - 1);
+//	//逆序右边
+//	reverse(arr + k, arr + len - 1);
+//	//逆序全部
+//	reverse(arr, arr + len - 1);
+//}
+//int main()
+//{
+//	char arr[] = "abcdef";
+//	int sz = strlen(arr);
+//	int k = 0;
+//	scanf("%d", &k);
+//	printf("%s\n", arr);
+//	return 0;
+//}
+//杨氏矩阵
+//从左向右和从上往下都是递增的
+//查找某个元素是否存在 时间复杂度不大于o(N)
+//1 2 3
+//4 5 6
+//7 8 9
+//   找右上角元素来比较
+//自己乱七八糟随便写的
+//int main()
+//{
+//	int arr[3][3] = { 1,2,3,4,5,6,7,8,9 };
+//	int n;
+//	scanf("%d", &n);//n=5
+//	for (int i = 0; i < 3; i++)
+//	{
+//		if (arr[i][3]>=n)
+//		{
+//			for (int j=2;j>=0;j--)
+//			{
+//				if (arr[i][j] == n)
+//				{
+//					printf("在第%d行 第%d列\n", i + 1, j + 1);
+//					break;
+//				}
+//			}
+//		}
+//	}
+//
+//	return 0;
+//}
+//鹏哥的思路版本
+//返回两个东西可以靠结构体来实现 也可以通过传参传指针来进行修改
+//结构体版本
+//struct point
+//{
+//	int x;
+//	int y;
+//};
+//struct point Find_Num(int arr[3][3], int row, int col, int k)
+//{
+//	int x = 0, y = col - 1;
+//	struct point p = { -1, -1 };
+//	while (x <= row - 1 && y >= 0)
+//	{
+//		if (arr[x][y] > k)
+//			y--;
+//		else if (arr[x][y] < k)
+//			x++;
+//		else
+//		{
+//			p.x = x;
+//			p.y = y;
+//			//printf("第%d行 第%d列\n", x+1, y+1);
+//			//但是为了保证函数的单一性 不打印东西了 尝试使用结构体来返回两个值
+//			return p;
+//		}
+//	}
+//	return p;
+//}
+//int main()
+//{
+//	int arr[3][3] = { 1,2,3,4,5,6,7,8,9 };
+//	int k;
+//	scanf("%d", &k);//k=5
+//	struct point ret = Find_Num(arr, 3, 3, k);
+//	printf("第%d行 第%d列\n", ret.x+1, ret.y+1);
+//	return 0;
+//}
+//指针版本
+void Find_Num(int arr[3][3], int* row, int* col, int k)
+{
+	assert(row && col);
+	int x = 0, y = 2;  // y = col - 1 = 3 - 1 = 2
+	*row = -1;
+	*col = -1;
+	while (x <= 2 && y >= 0)  // row-1=2, 所以x<=2
+	{
+		if (arr[x][y] > k)
+			y--;
+		else if (arr[x][y] < k)
+			x++;
+		else
+		{
+			*row = x;
+			*col = y;
+			return;
+		}
+	}
+}
 int main()
 {
-
+	int arr[3][3] = { {1,2,3}, {4,5,6}, {7,8,9} };
+	int k;
+	scanf("%d", &k); // k=5
+	int row, col;  // 用来接收找到的行列下标
+	Find_Num(arr, &row, &col, k);  // 传入地址
+	//要再使用时记得对col和row进行重置
+	if (row != -1 && col != -1) 
+	{
+		printf("第%d行 第%d列\n", row + 1, col + 1);
+	}
+	else 
+	{
+		printf("未找到元素 %d\n", k);
+	}
 	return 0;
 }
 
