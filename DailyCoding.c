@@ -7509,42 +7509,196 @@ sizeof
 //	return 0;
 //}
 //指针版本
-void Find_Num(int arr[3][3], int* row, int* col, int k)
+//void Find_Num(int arr[3][3], int* row, int* col, int k)
+//{
+//	assert(row && col);
+//	int x = 0, y = 2;  // y = col - 1 = 3 - 1 = 2
+//	*row = -1;
+//	*col = -1;
+//	while (x <= 2 && y >= 0)  // row-1=2, 所以x<=2
+//	{
+//		if (arr[x][y] > k)
+//			y--;
+//		else if (arr[x][y] < k)
+//			x++;
+//		else
+//		{
+//			*row = x;
+//			*col = y;
+//			return;
+//		}
+//	}
+//}
+//int main()
+//{
+//	int arr[3][3] = { {1,2,3}, {4,5,6}, {7,8,9} };
+//	int k;
+//	scanf("%d", &k); // k=5
+//	int row, col;  // 用来接收找到的行列下标
+//	Find_Num(arr, &row, &col, k);  // 传入地址
+//	//要再使用时记得对col和row进行重置
+//	if (row != -1 && col != -1) 
+//	{
+//		printf("第%d行 第%d列\n", row + 1, col + 1);
+//	}
+//	else 
+//	{
+//		printf("未找到元素 %d\n", k);
+//	}
+//	return 0;
+//}
+//判断一个字符串能否由另一个字符串左旋得到
+//使用库函数strstr
+//用于在一个字符串（主串）中查找另一个字符串（子串）的首次出现位置，返回指向该位置的指针；若未找到则返回 NULL。
+//char *strstr(const char *haystack, const char *needle)
+//int is_left_move(int arr1[],int arr2[])
+//{
+//	int len1 = strlen(arr1);
+//	int len2 = strlen(arr2);
+//	if (len1 != len2)
+//		return 0;
+//	strncat(arr1,arr1,len1);
+//	//abcdefabcdef 这样任何旋转之后的字符串的可能性都会在这个字符串里面
+//	//比较不容易想得到
+//	char* ret = strstr(arr1,arr1);
+//	if (ret == NULL)
+//		return 0;
+//	else
+//		return 1;
+//}
+//int main()
+//{
+//	char arr1[20] = "abcdef";
+//	char arr2[] = "cdefab";
+//	int ret = is_left_move(arr1,arr2);
+//	if (ret == 1)
+//		printf("Yes\n");
+//	else 
+//		printf("No\n");
+//	return 0;
+//}
+//void print(int arr[], int num)
+//{
+//	for (int i = 0; i < num; i++)
+//	{
+//		printf("%d ", arr[i]);
+//	}
+//}
+//int cmp_int_asc(const void* a, const void* b)
+//{
+//	int val1 = *(const int*)a;
+//	int val2 = *(const int*)b;
+//	return (val1 < val2) ? -1 : (val1 > val2) ? 1 : 0;//嵌套的三目操作符 实现了三种情况
+//}
+//int cmp_int_desc(const void* a, const void* b)
+//{
+//	int val1 = *(const int*)a;
+//	int val2 = *(const int*)b;
+//	return (val1 > val2) ? -1 : (val1 < val2) ? 1 : 0;
+//}
+//int main()
+//{
+//	int arr[100] = { 0 };
+//	int n;
+//	printf("请输入您要排序的整数数据个数\n");
+//	scanf("%d", &n);
+//	printf("请输入您要排序的数据\n");
+//	for (int i = 0; i < n; i++)
+//	{
+//		scanf("%d", &arr[i]);
+//	}
+//	int input = -1;
+//	printf("请输入您的选择1/2\n1为2升序\n2为降序\n");
+//	scanf("%d", &input);
+//	switch (input)
+//	{
+//	case 1:
+//		qsort(arr, n, sizeof(int), cmp_int_asc);
+//		print(arr, n);
+//		break;
+//	case 2:
+//		qsort(arr, n, sizeof(int), cmp_int_desc);
+//		print(arr, n);
+//		break;
+//	case 0:
+//		printf("退出\n");
+//		exit(0);
+//		break;
+//	default:
+//		printf("输入错误请重新选择\n");
+//		break;
+//	}
+//	return 0;
+//}
+//										复习一下指针相关的知识点
+//函数指针
+//返回值类型 (*指针名)(参数类型列表)
+//指针数组
+//元素类型 *数组名[数组长度]
+//e.g.指针数组：strs是数组，元素是char*（字符串指针）
+//char* strs[] = { "apple", "banana", "cherry" };
+//数组指针
+//元素类型 (*指针名)[数组长度]
+//e.g.声明数组指针p：指向“int类型、长度为3的数组”
+//int (*p)[3];
+//声明	        本质 	  解读（从右往左）	             元素 / 指向内容
+//int* p[3]	    指针数组	  p 是数组，元素是 int* （指针）	 3 个 int 类型指针
+//int (*p)[3]	数组指针	  p 是指针，指向 int[3]（数组）	 指向 1 个长度为 3 的 int 数组
+//
+//矩阵转置
+//int main()
+//{
+//	int n, m;
+//	scanf("%d %d", &n, &m);
+//	int arr[10][10] = { 0 };
+//	int i, j;
+//	for (i = 0; i < n; i++)
+//	{
+//		for (j = 0; j < m; j++)
+//		{
+//			scanf("%d", &arr[i][j]);
+//		}
+//	}
+//	//1 2 3
+//	//4 5 6
+//	//输出     n=2    m=3
+//	//1 4
+//	//2 5
+//	//3 6
+//	for (i = 0; i < m; i++)
+//	{
+//		for (j = 0; j < n; j++)
+//		{
+//			printf("%d ", arr[j][i]);
+//		}
+//		printf("\n");
+//	}
+//	return 0;
+//}
+//上三角矩阵判断
+//3
+//1 2 3
+//0 4 5
+//0 0 6
+void JudArr(int arr[][3])
 {
-	assert(row && col);
-	int x = 0, y = 2;  // y = col - 1 = 3 - 1 = 2
-	*row = -1;
-	*col = -1;
-	while (x <= 2 && y >= 0)  // row-1=2, 所以x<=2
+	for ()
 	{
-		if (arr[x][y] > k)
-			y--;
-		else if (arr[x][y] < k)
-			x++;
-		else
+		for ()
 		{
-			*row = x;
-			*col = y;
-			return;
+
 		}
 	}
 }
 int main()
 {
-	int arr[3][3] = { {1,2,3}, {4,5,6}, {7,8,9} };
-	int k;
-	scanf("%d", &k); // k=5
-	int row, col;  // 用来接收找到的行列下标
-	Find_Num(arr, &row, &col, k);  // 传入地址
-	//要再使用时记得对col和row进行重置
-	if (row != -1 && col != -1) 
-	{
-		printf("第%d行 第%d列\n", row + 1, col + 1);
-	}
-	else 
-	{
-		printf("未找到元素 %d\n", k);
-	}
+	int n;
+	int arr[10][10] = { 0 };
+	scanf("%d", &n);
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			scanf("%d", &arr[i][j]);
+	JudArr(arr);
 	return 0;
 }
 
