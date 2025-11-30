@@ -7680,25 +7680,140 @@ sizeof
 //1 2 3
 //0 4 5
 //0 0 6
-void JudArr(int arr[][3])
+//int JudArr(int arr[][3])
+//{
+//	int count = 0;
+//	for (int i = 1; i < 3; i++)
+//	{
+//		for (int j = 0; j < i; j++)
+//		{
+//			if (arr[i][j] == 0)
+//				count++;
+//		}
+//	}
+//	return count == 3 ? 1 : -1;
+//}
+//int main()
+//{
+//	int n;
+//	int arr[10][10] = { 0 };
+//	scanf("%d", &n);
+//	for (int i = 0; i < n; i++)
+//		for (int j = 0; j < n; j++)
+//			scanf("%d", &arr[i][j]);
+//	int ret = JudArr(arr);
+//	if (ret == 1)
+//		printf("Yes\n");
+//	else
+//		printf("No\n");
+//	return 0;
+//}
+//int main()
+//{
+//	int n;
+//	int count = 0;
+//	int arr[10][10] = { 0 };
+//	scanf("%d", &n);
+//	for (int i = 0; i < n; i++)
+//	{
+//		for (int j = 0; j < n; j++)
+//		{
+//			scanf("%d", &arr[i][j]);
+//		}
+//	}
+//	for (int i = 0; i < n; i++)
+//	{
+//		for (int j = 0; j < i; j++)
+//		{
+//			if (arr[i][j] != 0)
+//				goto end;
+//			//也可以这里直接printf然后return 0;
+//			else
+//				count++;
+//		}
+//	}
+//	if (count == n * n)
+//		printf("Yes\n");
+//	else
+//		end:
+//		printf("No\n");
+//	return 0;
+//}
+//判断一个整数序列是否有序
+//sorted或者unsorted
+//int main()
+//{
+//	int arr[100] = { 0 };
+//	int n;
+//	int flag = 1;
+//	scanf("%d", &n);
+//	for (int i = 0; i < n; i++)
+//	{
+//		scanf("%d", &arr[i]);
+//	}
+//	for (int i = 1; i < n - 1; i++)
+//	{
+//		if ((arr[i - 1] < arr[i] && arr[i] > arr[i + 1]) || (arr[i - 1] > arr[i] && arr[i] < arr[i + 1]))
+//			flag = 0;
+//	}
+//	if (flag == 1)
+//		printf("Sorted\n");
+//	else
+//		printf("Unsorted\n");
+//
+//	return 0;
+//}
+//进阶:自定义类型:结构体和联合体和枚举(这两种用的比较多)
+//struct Stu
+//{
+//	char name[20];
+//	int age;
+//}s1,s2;
+//s1 s2是全局的结构体变量
+//在某一个函数里面创建struct Stu s3这样就是局部变量了
+//匿名结构体类型 如下
+//只能用一次
+//struct 
+//{
+//	char name[20];
+//	int age;
+//}s1;
+//int main()
+//{
+//
+//	return 0;
+//}
+//struct Container
+//{
+//	int data;
+//	struct
+//	{ // 匿名结构体
+//		int x;
+//		int y;
+//	}; // 没有成员名！
+//};
+//int main()
+//{
+//	struct Container c;
+//	c.data = 10;
+//	c.x = 20; // 直接访问！就像x是Container的成员一样
+//	c.y = 30; // 直接访问！
+//	printf("%d, %d, %d\n", c.data, c.x, c.y);
+//	return 0;
+//}
+//可以看到，使用匿名结构体后，访问嵌套的成员 x和 y时不再需要写 c.inner.x，而是可以直接写 c.x，代码更加简洁。
+//结构体的自引用
+//这里提一嘴数据结构
+//线形和树形
+struct Node
 {
-	for ()
-	{
-		for ()
-		{
-
-		}
-	}
-}
+	int data;
+	struct Node* next;
+};
 int main()
 {
-	int n;
-	int arr[10][10] = { 0 };
-	scanf("%d", &n);
-	for (int i = 0; i < n; i++)
-		for (int j = 0; j < n; j++)
-			scanf("%d", &arr[i][j]);
-	JudArr(arr);
+	sizeof(struct Node);//error
+	//无法计算这个的长度
 	return 0;
 }
 
@@ -7713,10 +7828,18 @@ int main()
 									  easyX 控制台 swing 文件流 数据库 shutdown命令 句柄 wmare workstation
 									  Git  PTA上50题 洛谷200题 LeetCode 汉诺塔(小游戏)
 									  英语四级 班主任的科研组 《函数栈帧的创建与销毁》
-							 C语言之后(指针 结构体 动态内存管理)  数据结构 算法 《剑指offer》
+									  数据结构 算法 《剑指offer》
 大一上  1.C语言 中国大学MOOC 翁恺
 		2.《C primer plus》
 		3.大概学到指针和结构体
 		4.菜鸟教程（https://www.runoob.com/）
 		5.B站（C语言小项目）
+
+大一下：1.数据结构与算法基础
+	   2.在学这门课的过程中或者学完之后在力扣(leetcode)和洛谷两个网站去刷算法题，一天一道长期坚持。
+	   3.C语言学完之后就可以开始C++学习
+		1.基础语法跟B站播放量靠前的网课（黑马、尚硅谷、浙大翁恺等)，书的话看一本《C++ Primer plus》
+		2.基础语法学完之后接着补相关技术体系（网络编程、多线程、Linux、数据库等）。参考发的《C++体系学习建议》。
+		3.体系学完之后开始准备项目
+		4.找项目：在github和gitee去找
 */
