@@ -7877,45 +7877,196 @@ sizeof
 //}
 //
 //结构体内存对齐和修改默认对齐数
-struct S1
+//struct S1
+//{
+//	char c1;
+//	int i;
+//	char c2;
+//};
+//struct S2
+//{
+//	char c1;
+//	char c2;
+//	int i;
+//};
+//struct S3
+//{
+//	double d;
+//	char c;
+//	int i;
+//};
+//struct S4
+//{
+//	char c1;
+//	struct S3 s3;
+//	double d;
+//};
+//int main()
+//{
+//	struct S1 s1;
+//	struct S2 s2;
+//	printf("%d\n", sizeof(struct S1));//12
+//	printf("%d\n", sizeof(struct S2));//8
+//	//为什么不一样
+//	//很复杂 看下面的规则
+//	//首先得掌握结构体的对齐规则：								(会导致内存的浪费)
+//	//1.第一个成员在与结构体变量偏移量为0的地址处。
+//	//2.其他成员变量要对齐到某个数字（对齐数）的整数倍的地址处。
+//	//对齐数 = 编译器默认的一个对齐数(VS中默认的值为8)    与   该成员大小的❗较小值❗
+//	//3.结构体总大小为最大对齐数（每个成员变量都有一个对齐数）的整数倍。
+//	//4.如果❗嵌套了结构❗的情况，嵌套的结构体对齐到自己的最大对齐数的整数倍处，
+//	//结构体的整体大小就是所有最大对齐数（含嵌套结构体的对齐数）的整数倍
+//	//结合2025.12.1的17.20的图片来看 鹏哥的137集的18分钟
+//	printf("%d\n", offsetof(struct S1, c1));//0
+//	printf("%d\n", offsetof(struct S1, i));//4
+//	printf("%d\n", offsetof(struct S1, c2));//8
+//	//关键字offsetof
+//	//offsetof(type, member);
+//	//offsetof是 C 语言中的一个宏，用于获取结构体（struct）或联合体（union）中成员的字节偏移量
+//	printf("%d\n", offsetof(struct S2, c1));//0
+//	printf("%d\n", offsetof(struct S2, c2));//1
+//	printf("%d\n", offsetof(struct S1, i));//4
+//
+//	printf("%d\n", offsetof(struct S3, d));//0
+//	printf("%d\n", offsetof(struct S3, c));//8
+//	printf("%d\n", offsetof(struct S3, i));//12
+//	printf("%d\n", sizeof(struct S3));//16
+//
+//	printf("%d\n", offsetof(struct S4, c1));//0
+//	printf("%d\n", offsetof(struct S4, d));//24
+//	printf("%d\n", sizeof(struct S4));//32
+//
+//	return 0;
+//}
+//为什么存在内存对齐现象
+//1.平台原因
+//不是所有硬件平台都能访问任意地址上的任意数据的；某些硬件平台只能在某些地址处取某些特定类型的数据，否则抛出硬件异常
+//2.性能原因
+//数据结构(尤其是栈)因该尽可能的在自然边界上对齐
+//原因在于为了访问未对齐的内存，处理器需要两次内存访问；而对齐的内存访问仅需要一次访问
+//so 整体来说:结构体的内存对齐是拿空间来换时间的做法
+//补充:32位x86机器 一次访问32个比特位 也就是4个字节 char c;int i 来举例就是
+//那怎么在时间较快的前提下尽量节省空间呢
+//方法:让占用空间小的成员尽量集中在一起
+//怎么修改默认对齐数
+//#pragma 这个预处理指令，可以改变编译器的默认对⻬数。
+//#pragma pack(8)//设置默认对齐数为8
+//#pragma pack(1)//设置默认对⻬数为1
+//struct S
+//{
+//	char c1;
+//	int i;
+//	char c2;
+//};
+//#pragma pack()//取消设置的对⻬数，还原为默认
+//int main()
+//{
+//	//输出的结果是什么？
+//	printf("%d\n", sizeof(struct S));//6
+//	return 0;
+//}
+//结构体在对⻬⽅式不合适的时候，我们可以⾃⼰更改默认对⻬数。
+//#pragma pack(4)//设置的开始
+//struct S
+//{
+//	int i;
+//	double d;
+//};
+//#pragma pack()//设置的结束
+//
+//#pragma pack(1)
+//struct S1
+//{
+//	char c1;
+//	int i;
+//	char c2;
+//};
+//#pragma pack()
+//
+//int main()
+//{
+//	printf("%d\n", sizeof(struct S));//12
+//	printf("%d\n", sizeof(struct S1));//6
+//	return 0;
+//}
+//结构体传参
+//struct S
+//{
+//	int data[1000];
+//	int num;
+//};
+//void print1(struct S ss)
+//{
+//	int i = 0;
+//	for (i = 0; i < 3; i++)
+//	{
+//		printf("%d ", ss.data[i]);
+//	}
+//	printf("%d\n", ss.num);
+//}
+//void print2(const struct S* ps)
+//{
+//	int i = 0;
+//	for (i = 0; i < 3; i++)
+//	{
+//		printf("%d ", ps->data[i]);
+//	}
+//	printf("%d\n", ps->num);
+//}
+//int main()
+//{
+//	struct S s = { {1,2,3},100 };
+//	print1(s);
+//	print2(&s);
+//	return 0;
+//}
+//位段
+//是可以用来节省空间的
+//位段的声明和结构是类似的，有两个不同：
+//1. 位段的成员必须是 int || unsigned int || signed int || char，在C99中位段成员的类型也可以选择其他类型
+//2. 位段的成员名后边有⼀个冒号和⼀个数字
+//比如
+//struct A
+//{
+//	int _a : 2;//这里 _a 只需要两个比特位  可以节省空间
+//	int _b : 5;//
+//	int _c : 10;//
+//	int _d : 30;//
+//};//这一串就是位段
+//
+//int main()
+//{
+//	printf("%d\n", sizeof(struct A));//8个字节
+//	//2+5+10+30=47bit 所以 48bit = 6byte就够了啊
+//	//那为什么是8而不是6呢
+//	return 0;
+//}
+//位段的内存分配
+//位段的空间上是按照需要以4个字节(int)或者1个字节(char)的方式来开辟的
+//跟结构相⽐，位段可以达到同样的效果，并且可以很好的节省空间，但是有跨平台的问题存在。
+struct S
 {
-	char c1;
-	int i;
-	char c2;
-};
-struct S2
-{
-	char c1;
-	char c2;
-	int i;
+	char a : 3;
+	char b : 4;//8-3=5 5-4=1
+//---------------- 1<5 所以再开辟一个字节
+	char c : 5;//上个字节剩的我不要了 8-5=3
+//---------------- 3<4 这里再开辟一块空间
+	char d : 4;//所以一共需要三个字节
 };
 int main()
 {
-	struct S1 s1;
-	struct S2 s2;
-	printf("%d\n", sizeof(struct S1));//12
-	printf("%d\n", sizeof(struct S2));//8
-	//为什么不一样
-	//很复杂 看下面的规则
-	//首先得掌握结构体的对齐规则：								(会导致内存的浪费)
-	//1.第一个成员在与结构体变量偏移量为0的地址处。
-	//2.其他成员变量要对齐到某个数字（对齐数）的整数倍的地址处。
-	//对齐数 = 编译器默认的一个对齐数(VS中默认的值为8)    与   该成员大小的❗较小值❗
-	//3.结构体总大小为最大对齐数（每个成员变量都有一个对齐数）的整数倍。
-	//4.如果嵌套了结构体的情况，嵌套的结构体对齐到自己的最大对齐数的整数倍处，结构体的整
-	//体大小就是所有最大对齐数（含嵌套结构体的对齐数）的整数倍
-	//结合2025.12.1的17.20的图片来看 鹏哥的137集的18分钟
-	printf("%d\n", offsetof(struct S1, c1));//0
-	printf("%d\n", offsetof(struct S1, i));//4
-	printf("%d\n", offsetof(struct S1, c2));//8
-	//关键字offsetof
-	//offsetof(type, member);
-	//offsetof是 C 语言中的一个宏，用于获取结构体（struct）或联合体（union）中成员的字节偏移量
-	printf("%d\n", offsetof(struct S2, c1));//0
-	printf("%d\n", offsetof(struct S2, c2));//1
-	printf("%d\n", offsetof(struct S1, i));//4
+	struct S s = { 0 };
+	printf("%d\n", sizeof(struct S));//3
+	//若上一次开辟的不够 下次还是继续使用的话就只是需要2个字节
+	//而这里打印是3说明 上次开辟的我不要了
+	s.a = 10;
+	s.b = 12;
+	s.c = 3;
+	s.d = 4;
+
 	return 0;
 }
+
 
 
 
