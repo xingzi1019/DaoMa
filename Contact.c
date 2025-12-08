@@ -77,7 +77,7 @@ void DelContact(Contact* pc)
 	}
 	char name[MAX_NAME] = { 0 };
 	printf("请输入要删除的人名\n");
-	scanf("%s", name);
+	scanf("%s", &name);
 	//执行删除
 	//1.查找
 	int pos = FindByName(pc, name);
@@ -101,7 +101,7 @@ void SearchContact(const Contact* pc)
 	assert(pc);
 	char name[MAX_NAME] = { 0 };
 	printf("请输入要查找的人的名字\n");
-	scanf("%s", &name);
+	scanf("%s", name);
 	//1.查找
 	int pos = FindByName(pc, name);
 	if (pos == -1)
@@ -153,19 +153,36 @@ int cmp_peo_by_name(const void* e1, const void* e2)
 	return strcmp(((PeoInfo*)e1)->name, ((PeoInfo*)e2)->name);
 }
 
+int cmp_peo_by_age(const void* e1, const void* e2)
+{
+	int age1 = ((PeoInfo*)e1)->age, age2 = ((PeoInfo*)e2)->age;
+	if (age1 > age2)
+	{
+		return 1;
+	}
+	else if (age1 < age2)
+	{
+		return -1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
 void SortContact(Contact* pc)
 {
 	assert(pc);
-	printf("请输入你要排序的依据:name,age\n");
-	int cmp_roof[] = { 0 };
-	scanf("%s",&cmp_roof);
-	if (strcmp(cmp_roof,"name"))
+	printf("请输入你要排序的依据:name还是age\n");
+	int cmp_roof[5] = { 0 };
+	scanf("%s", cmp_roof);
+	if (strcmp(cmp_roof, "name") == 0)
 	{
 		qsort(pc->data, pc->count, sizeof(PeoInfo), cmp_peo_by_name);
 	}
-	if (strcmp(cmp_roof,"age"))
+	if (strcmp(cmp_roof, "age") == 0)
 	{
-
+		qsort(pc->data, pc->count, sizeof(PeoInfo), cmp_peo_by_age);
 	}
 	printf("排序成功\n");
 }
