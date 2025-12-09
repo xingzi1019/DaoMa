@@ -446,7 +446,7 @@ if (a = 5)
 //
 //1. 首先定义了一个字符变量`ch`并初始化为空字符`'\0'`
 //
-//2. `while ((ch = getchar()) != EOF)`是一个循环，功能是：
+//2. while ((ch = getchar()) != EOF)是一个循环，功能是：
 //- 使用`getchar()`函数从标准输入读取一个字符
 //- 将读取到的字符赋值给`ch`
 //- 判断是否读取到了文件结束符`EOF`（在Windows系统中通常通过Ctrl + Z输入，
@@ -8079,11 +8079,153 @@ sizeof
 //4. 当⼀个结构包含两个位段，第⼆个位段成员⽐较⼤，⽆法容纳于第⼀个位段剩余的位时，是舍弃剩余的位还是利⽤，这是不确定的。
 //                                                         刚刚上面的分析的舍弃是基于VS的 但并不是所有编译器都这样
 //实现一个通讯录
-int main()
-{
+//见其他项目文件
+//gets fggets 在标准头文件里面<stdio.h>
+//fgets 会读取换行符，需要手动去除
+//int main() 
+//{
+//	char str[20];
+//	printf("请输入字符串: ");
+//	fgets(str, sizeof(str), stdin);  // 读取最多 19 个字符 + '\0'
+//	printf("你输入的是: %s", str);
+//	return 0;
+//}
+//题目:统计并输出某给定字符在给定字符串中出现的次数
+//int main()
+//{
+//	char arr[81];
+//	char ch;
+//	fgets(arr, sizeof(arr), stdin);
+//	// 参数说明：
+//	// 1. 目标字符数组
+//	// 2. 最大读取字符数（包括 '\0'）
+//	// 3. 文件指针（stdin 表示标准输入）
+//	ch = getchar();
+//	int count = 0;
+//	for (int i = 0; arr[i] != '\0'; i++)
+//	{
+//		if (arr[i] == ch)
+//		{
+//			count++;
+//		}
+//	}
+//	printf("%d\n", count);
+//	return 0;
+//}
+//puts的使用 同样在<stdio.h>头文件中
+//int main() 
+//{
+//	char str[] = "Hello";
+//	//自动添加换行符
+//	puts(str);      // 输出: Hello\n
+//	puts("World");  // 输出: World\n
+//	return 0;
+//}
+//getchar的使用
+//从标准输入读取一个字符
+//注意：返回的是 int 类型（可以处理 EOF）
+//基本用法
+//int main() 
+//{
+//	printf("请输入一个字符: ");
+//	int ch = getchar();  // 读取单个字符
+//	printf("你输入的字符是: ");
+//	putchar(ch);  // 输出字符
+//	putchar('\n');
+//	return 0;
+//}
+//枚举
+//枚举顾名思义就是⼀⼀列举
+//把可能的取值⼀⼀列举
+//enum Day//枚举常量
+//{
+//	//默认的值是这样的
+//  //这些是常量可以初始化 但是不能赋值
+//	Mon,  //0
+//	Tues, //1
+//	Wed,  //2
+//	Tuur, //3
+//	Fri,  //4
+//	Sat,  //5
+//	Sun   //6
+//};
+//
+//enum Sex
+//{
+//	Male, Female, Secret
+//};
+//
+//enum Color
+//{
+//	RED=1,
+//	GREEN,
+//	BLUE
+//};
+//int main()
+//{
+//	enum Day d = Fri;
+//	printf("%d\n", Mon);//0
+//	printf("%d\n", Tues);//1
+//	printf("%d\n", Wed);//2
+//
+//	printf("%d\n", Male);//0
+//	printf("%d\n", Female);//1
+//	printf("%d\n", Secret);//2
+//
+//	printf("%d\n", RED);//1
+//	printf("%d\n", GREEN);//2
+//	printf("%d\n", BLUE);//3
+//
+//	printf("%d\n",sizeof(enum Day));//4
+//	//在 C 标准中，枚举类型通常实现为 int类型的大小
+//	return 0;
+//}
+//联合体(共同体)
+//是公用内存的 但同一时间联合体的成员只能存在一个
+//union Un
+//{
+//	int a;
+//	char b;
+//};
+//int main()
+//{
+//	union Un u;
+//	//联合体⼤⼩的计算规则:
+//	//联合的⼤⼩⾄少是最⼤成员的⼤⼩
+//	//当最⼤成员⼤⼩不是最⼤对⻬数的整数倍的时候，就要对⻬到最⼤对⻬数的整数倍
+//	printf("%d\n", sizeof(union Un));//4
+//	printf("%p\n", &u);
+//	printf("%p\n", &(u.a));
+//	printf("%p\n", &(u.b));
+//	//运行发现这三个的地址一样 说明确实是公用一块空间
+//	//所以在一些场景是可以节省空间的
+//	return 0;
+//}
+//结构体 枚举 联合体 都是要内存对齐的
+//使用联合体来判断是大端还是小端
+//int check_sys()
+//{
+//	union Un
+//	{
+//		char c;
+//		int i;
+//	}u;
+//	u.i = 1;
+//	return u.c;
+//}
+//int main()
+//{
+//	int ret = check_sys();
+//	if (ret == 1)
+//		printf("小端存储模式\n");
+//	else
+//		printf("大端存储模式\n");
+//
+//	return 0;
+//}
+//进阶:动态内存管理
 
-	return 0;
-}
+
 
 
 //1、系统过完数据结构 —— 所有代码要全部跟着自己实现一遍
