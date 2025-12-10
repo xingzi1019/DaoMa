@@ -8234,6 +8234,7 @@ sizeof
 //堆区:malloc calloc realloc free
 //静态区:
 //关键字:malloc
+//void* malloc (size_t size);
 //int main()
 //{
 //	int arr[10] = { 0 };//在栈区开辟
@@ -8275,19 +8276,56 @@ sizeof
 //		printf("%d ", *(p + i) = i);
 //	}
 //	free(p);
+//  //void free (void* ptr);//传过去是要释放的空间的起始地址
 //	p = NULL;
 //	//free只是解放了p之前所被编程者输入的内容，而真正解放p本身的是把指针p变为空指针
 //	return 0;
 //}
+//int main()
+//{
+//	while (1)
+//	{
+//		malloc(1);
+//	}
+//	//这串代码只开辟不free释放
+//	//会造成内存泄漏
+//	//调开任务管理器看看
+//	return 0;
+//}
+//free
+//如果参数 ptr 指向的空间不是动态开辟的，那free函数的⾏为是未定义的。
+//如果参数 ptr 是NULL指针，则函数什么事都不做。
+//calloc
+//void* calloc (size_t num, size_t size);
+//num:要开辟的元素的个数
+//size:每个元素的大小
+//int main()
+//{
+//	int* p = (int*)calloc(10, sizeof(int));
+//	//calloc会将他们初始化为0
+//	if (p == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//		return 1;
+//	}
+//	int i = 0;
+//	for (i = 0; i < 10; i++)
+//	{
+//		printf("%d ", *(p + i));
+//	}
+//	free(p);
+//	p = NULL;
+//
+//	return 0;
+//}
+//realloc
+//void* realloc (void* ptr, size_t size);
+//ptr:要调整的内存空间的起始地址
+//size:调整之后新⼤⼩
+//返回值为调整之后的内存空间的起始位置
 int main()
 {
-	while (1)
-	{
-		malloc(1);
-	}
-	//这串代码只开辟不free释放
-	//会造成内存泄漏
-	//调开任务管理器看看
+
 	return 0;
 }
 
