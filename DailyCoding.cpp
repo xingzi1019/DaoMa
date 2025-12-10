@@ -8224,7 +8224,72 @@ sizeof
 //	return 0;
 //}
 //进阶:动态内存管理
-
+//相关关键字
+//malloc
+//free
+//calloc
+//realloc
+//栈区 堆区 静态区
+//栈区:局部变量 形式参数
+//堆区:malloc calloc realloc free
+//静态区:
+//关键字:malloc
+//int main()
+//{
+//	int arr[10] = { 0 };//在栈区开辟
+//	//动态内存开辟
+//	//INT_MAX
+//	int* p = (int*)malloc(INT_MAX);//在堆区开辟
+//	if (p == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//		return 1;
+//	}
+//	//使用
+//	int i = 0;
+//	for (i = 0; i < 10; i++)
+//	{
+//		printf("%d ", *(p + i) = i);
+//	}
+//	//没有free
+//	//并不是说内存空间就不回收了
+//	//当程序退出的时候,系统会自动回收内存空间的
+//	return 0;
+//	//变长数组 得C99
+//	//int n;
+//	//scanf("%d", &n);
+//	//int arr2[n];
+//}
+//int main()
+//{
+//	int arr[10] = { 0 };
+//	int* p = (int*)malloc(INT_MAX);
+//	if (p == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//		return 1;
+//	}
+//	int i = 0;
+//	for (i = 0; i < 10; i++)
+//	{
+//		printf("%d ", *(p + i) = i);
+//	}
+//	free(p);
+//	p = NULL;
+//	//free只是解放了p之前所被编程者输入的内容，而真正解放p本身的是把指针p变为空指针
+//	return 0;
+//}
+int main()
+{
+	while (1)
+	{
+		malloc(1);
+	}
+	//这串代码只开辟不free释放
+	//会造成内存泄漏
+	//调开任务管理器看看
+	return 0;
+}
 
 
 
