@@ -10,7 +10,6 @@
 //#include <windows.h>//控制台
 //#include <algorithm>
 #include "Coding.h"
-#include <cstddef>
 
 //以下为两个数四则运算需要调用的函数
 //int Add(int x, int y)
@@ -1824,6 +1823,10 @@ int main(void)
 //	int b = 0;
 //	int c = 0;
 //	scanf("%d %d", &a, &b);
+//  //24 % 18
+//  //24 % 18  6
+//  //18 %  6  0
+//  //那么6就是了
 //	while (c = a % b)
 //	{
 //		a = b;
@@ -8080,7 +8083,7 @@ sizeof
 //                                                         刚刚上面的分析的舍弃是基于VS的 但并不是所有编译器都这样
 //实现一个通讯录
 //见其他项目文件
-//gets fggets 在标准头文件里面<stdio.h>
+//gets fgets 在标准头文件里面<stdio.h>
 //fgets 会读取换行符，需要手动去除
 //int main() 
 //{
@@ -8556,7 +8559,761 @@ sizeof
 //	}
 //	return 0;
 //}
-//四级一定要过啊 求求了
+//很容易犯错的的一个经典错误
+//char* GetMemory(void)
+//{
+//	char p[] = "hello world";
+//	return p;
+//}
+//p是函数内的局部数组，存储在栈内存中
+//函数返回时，p的内存被释放回收
+//str指向的是已经无效的内存地址
+//void Test(void)
+//{
+//	char* str = NULL;
+//	str = GetMemory();//野指针
+//	//0x cccccccc
+//	printf(str);
+//}
+////下面这个同样的道理
+//int* test()
+//{
+//	int a = 10;
+//	return &a;
+//	//a出了这个函数就销毁了
+//}
+//int main()
+//{
+//	Test();
+//	int* p = test();
+//	printf("%p\n", p);
+//	printf("%d\n", *p);
+//	return 0;
+//}
+//void GetMemory(char** p, int num)
+//{
+//	*p = (char*)malloc(num);
+//}
+//void Test(void)
+//{
+//	char* str = NULL;
+//	GetMemory(&str, 100);
+//	strcpy(str, "hello");
+//	printf(str);//可以打印 但是会内存泄漏
+//	free(str);//ADD这两行代码就没问题了
+//	str = NULL;//ADD这两行代码就没问题了
+//}
+//int main()
+//{
+//	Test();
+//	return 0;
+//}
+//这里复习一下野指针
+//野指针是指指向无效内存区域的指针，是C/C++编程中最危险的bug之一。
+//有以下类型和成因
+//1.未初始化的指针
+//int* p;        // 未初始化，值随机
+//*p = 10;       // 危险！操作未知内存区域
+//2.指向已释放内存的指针（悬空指针）
+//int* p = (int*)malloc(sizeof(int));
+//free(p);       // 内存已释放
+//*p = 20;       // 野指针！访问已释放内存
+//3.超出作用域的局部变量指针
+//int* GetMemory()
+//{
+//	int value = 42;
+//	return &value;  // 返回局部变量地址
+//}
+//int* p = GetMemory();
+//printf("%d", *p);   // 野指针！value已销毁
+//4. 指针运算越界
+//int arr[5] = { 1,2,3,4,5 };
+//int* p = arr;
+//for (int i = 0; i <= 5; i++)
+//{   // i=5时越界
+//	*(p + i) = i;              // 最后一次是野指针操作
+//}
+//继续刷题
+//void Test(void)
+//{
+//	char* str = (char*)malloc(100);
+//	strcpy(str, "hello");
+//	free(str);
+//	//str = NULL;//不加这行就是错的 分手了没有忘掉还送东西到别人家里 属与非法访问
+//	if (str != NULL)
+//	{
+//		strcpy(str, "world");
+//		printf(str);
+//	}
+//}
+//int main()
+//{
+//	Test();
+//	return 0;
+//}
+//小乐乐和欧几里得
+//输入n和m 求n和m的最大公约数和最小公倍数之和          远古时期的笔记也有
+//int yue(int n, int m)
+//{
+//	//暴力遍历法
+//	//for (int i = n > m ? n : m; i < n > m ? n : m; i--)
+//	//{
+//	//	if (n % i == 0 && m % i == 0)
+//	//	{
+//	//		return i;
+//	//	}
+//	//}
+//	//辗转相除法
+//	int c = 0;
+//	int max = n > m ? n : m;
+//	int min = n < m ? n : m;
+//	while (c = max % min)
+//	{
+//		//24 % 18  6
+//		//18    6  
+//		//18 %  6 
+//		max = min;
+//		min = c;
+//	}
+//	return min;
+//}
+////补充数学知识:两个数的乘积等于这两个数的最大公约数和最小公倍数的积
+////            12 * 8 = 96 = 4 * 24
+////所以算出一个之后就可以去算另外一个了
+//int bei(int n, int m)
+//{
+//	//暴力遍历法
+//	//for (int i = n > m ? n : m; i > 0; i++)
+//	//{
+//	//	if (i % n == 0 && i % m == 0)
+//	//	{
+//	//		return i;
+//	//	}
+//	//}
+//	//辗转相除法 后 利用上面的数字知识得最大公约数 
+//	int c = 0;
+//	int ret = 0;
+//	int max = n > m ? n : m;
+//	int min = n < m ? n : m;
+//	while (c = max % min)
+//	{
+//		max = min;
+//		min = c;
+//	}
+//	return n * m / min;
+//}
+//int main()
+//{
+//	int n, m;
+//	scanf("%d %d", &n, &m);
+//	int max = yue(n, m);
+//	printf("最大公约数为%d\n", max);
+//	int min = bei(n, m);
+//	printf("最小公倍数为%d\n", min);
+//	int sum = max + min;
+//	printf("最大公约数和最小公倍数之和为%d\n", sum);
+//	return 0;
+//}
+//打印空心正方形图案
+//int main()
+//{
+//	int n;
+//	//@ @ @ @
+//	//@     @
+//	//@     @
+//	//@ @ @ @
+//	//法一
+//	//while (scanf("%d", &n) == 1)
+//	//{
+//	//	for (int i = 0; i < n; i++)
+//	//	{
+//	//		for (int j = 0; j < n; j++)
+//	//		{
+//	//			if (i != 0 && i != n - 1)
+//	//			{
+//	//				if (j == 0 || j == n - 1)
+//	//				{
+//	//					printf("@ ");
+//	//				}
+//	//				else
+//	//				{
+//	//					printf("  ");
+//	//				}
+//	//			}
+//	//			else
+//	//			{
+//	//				printf("@ ");
+//	//			}
+//	//		}
+//	//		printf("\n");
+//	//		//printf("\n");
+//	//	}
+//	//}
+//	//法二
+//	while (scanf("%d", &n) == 1)
+//	{
+//		char arr[15][15];
+//		memset(arr, ' ', sizeof(arr));
+//		for (int i = 0; i < n; i++)
+//		{
+//			for (int j = 0; j < n; j++)
+//			{
+//				if ((i == 0 || j == 0) || (i == n - 1 || j == n - 1))
+//				{
+//					arr[i][j] = '@';
+//				}
+//			}
+//		}
+//		for (int i = 0; i < n; i++)
+//		{
+//			for (int j = 0; j < n; j++)
+//			{
+//				printf("%c ", arr[i][j]);
+//			}
+//			printf("\n");
+//		}
+//	}
+//	return 0;
+//}
+//柔性数组
+//也许你从来没有听说过柔性数组（flexible array）这个概念，但是它确实是存在的。
+//C99 中，结构体中的最后一个元素允许是未知大小的数组，这就叫做『柔性数组』成员。
+//柔性数组的特点
+//1.结构中的柔性数组成员前面必须至少一个其他成员
+//2.sizeof 返回的这种结构大小不包括柔性数组的内存
+//3.包含柔性数组成员的结构用malloc()函数进行内存的动态分配，并且分配的内存应该大于结构的大小
+//以适应柔性数组的预期大小
+//typedef struct st_type
+//{
+//	int i;
+//	int a[0];//柔性数组成员
+//}type_a;
+////有些编译器会报错无法编译可以改成：
+//struct st_type2
+//{
+//	int i;
+//	int a[];//柔性数组成员
+//}type_a2;
+//int main()
+//{
+//	int sz = sizeof(st_type);
+//	printf("%d\n", sz);//4
+//	st_type s;
+//	printf("%d\n", sizeof(s));//4
+//	//所以不能这么创建变量 而应该是要使用malloc等
+//	//柔性数组的使用
+//	struct st_type2* ps = (struct st_type2*)malloc(sizeof(struct st_type2) + 40);
+//	if (ps == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//		return 1;
+//	}
+//	ps->i = 100;
+//	printf("%d\n", ps->i);
+//	for (int i = 0; i < 10; i++)
+//	{
+//		ps->a[i] = i + 1;
+//	}
+//	for (int j = 0; j < 10; j++)
+//	{
+//		printf("%d ", ps->a[j]);
+//	}
+//	struct st_type2* ptr = (struct st_type2*)realloc(ps, sizeof(struct st_type2) + 80);
+//	if (ptr != NULL)
+//	{
+//		ps = ptr;
+//		ptr = NULL;
+//	}
+//	free(ps);
+//	ps = NULL;
+//	return 0;
+//}
+//上面的是柔性数组开辟 上面的柔性数组开辟其实更好更不容易出错
+//malloc的次数越多 所产生的内存碎片就越多 内存的利用率就不高
+//如果我们的代码是在一个给别人用的函数中，你在里面做了二次内存分配，并把整个结构体返回给用户。
+//用户调用free可以释放结构体，但是用户并不知道这个结构体内的成员也需要free，
+//所以你不能指望用户来发现这个事。
+//所以如果我们把结构体的内存以及其成员要的内存一次性分配好了
+//并返回给用户一个结构体指针，用户做一次free就可以把所有的内存也给释放掉。
+//柔性数组除了这么一个优势之外还有另一个优势
+//连续的内存有益于提高访问速度，也有益于减少内存碎片
+//(其实，我个人觉得也没多高了，反正你跑不了要用做偏移量的加法来寻址)
+//struct S
+//{
+//	int n;
+//	int* arr;
+//};
+//int main()
+//{
+//	struct S* ps = (struct S*)malloc(sizeof(struct S));
+//	if (ps == NULL)
+//	{
+//		return 1;
+//	}
+//	ps->n = 100;
+//	ps->arr = (int*)malloc(40);
+//	//这种方法申请的空间是不连续的 但是上面两种申请的空间是连续的
+//	if (ps->arr == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//		return 1;
+//	}
+//	for (int i = 0; i < 10; i++)
+//	{
+//		ps->arr[i] = i + 1;//??????????????????????????????????
+//		//理解起来蛮有难度的
+//		//int* arr声明的是一个指针，但通过malloc分配内存后，它可以像数组一样使用下标
+//		//[]操作可以使用 这里上面的是int*类型 所以一次4个字节的指针步长
+//	}
+//	for (int i = 0; i < 10; i++)
+//	{
+//		printf("%d ", ps->arr[i]);
+//	}
+//	//扩容
+//	int* ptr = (int*)realloc(ps->arr, 80);
+//	if (ptr == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//		return 1;
+//	}
+//	else
+//	{
+//		// 扩容成功，更新指针
+//		ps->arr = ptr;//现在ps->arr指向新的80字节内存
+//	}
+//	//释放
+//	//必须先free(ps->arr)，再free(ps)，否则会丢失arr指针导致内存泄漏
+//	free(ps->arr);//释放数组内存
+//	free(ps);//释放结构体内存
+//	ps = NULL;
+//	return 0;
+//}
+//						语言文件操作
+//1. 为什么使用文件
+//2. 什么是文件
+//3. 文件的打开和关闭
+//4. 文件的顺序读写
+//5. 文件的随机读写
+//6. 文本文件和二进制文件
+//7. 文件读取结束的判定
+//8. 文件缓冲区
+//
+//文件有两种：程序文件、数据文件（从文件功能的角度来分类的）
+//1 程序文件
+//包括源程序文件(后缀为.c)目标文件(windows环境后缀为.obj),可执行程序(windows环境后缀为.exe)
+//2 数据文件
+//文件的内容不一定是程序,而是程序运行时读写的数据
+//比如程序运行需要从中读取数据的文件,或者输出内容的文件。
+//文件名
+//一个文件要有一个唯一的文件标识，以便用户识别和引用
+//文件名包含3部分：文件路径 + 文件名主干 + 文件后缀
+//例如：              c:\code\test.txt
+//为了方便起见,文件标识常被称为文件名
+//文件指针
+//缓冲文件系统中,关键的概念是“文件类型指针”,简称“文件指针”.
+//每个被使用的文件都在内存中开辟了一个相应的文件信息区
+//用来存放文件的相关信息（如文件的名字,文件状态及文件当前的位置等）
+//这些信息是保存在一个结构体变量中的.该结构体类型是有系统声明的,取名FILE.
+//文件的打开
+//fopen
+//FILE *fopen( const char *filename, const char *mode ); 在<stdio.h>中
+//int main()
+//{
+//	//打开文件
+//	FILE* pf = fopen("test.txt", "r");
+//	if (pf == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//		return 1;
+//	}
+//	//关闭文件
+//	fclose(pf);
+//	pf = NULL;//和malloc free那些类似 应该挺好理解的
+//	return 0;
+//}
+//文件的顺序读写 
+//
+//      功能      函数名      适用于       函数原型
+//  字符输入函数	 fgetc		所有输入流  int fgetc( FILE *stream );
+//  字符输出函数	 fputc		所有输出流  int fputc( int c, FILE *stream );
+//文本行输入函数  fgets		所有输入流  char *fgets( char *string, int n, FILE *stream );
+//文本行输出函数  fputs		所有输出流  int fputs( const char *string, FILE *stream );
+//格式化输入函数  fscanf		所有输入流  int fscanf( FILE *stream, const char *format [, argument ]... );
+//格式化输出函数  fprintf		所有输出流  int fprintf( FILE *stream, const char *format [, argument ]...);
+//   二进制输入   fread      文件       size_t fread( void *buffer, size_t size, size_t count, FILE *stream );
+//   二进制输出   fwrite     文件       size_t fwrite( const void *buffer, size_t size, size_t count, FILE *stream );
+// 
+//写文件
+//int main()
+//{
+//	FILE* pf = fopen("test.txt", "w");
+//	if (pf == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//		return 1;
+//	}
+//	//写文件
+//	fputc('!', pf);//int fputc( int c, FILE *stream ); <stdio.h>
+//	char i = 'a';
+//	for (i = 'a'; i <= 'z'; i++)
+//	{
+//		fputc(i, pf);
+//		fputc(' ', pf);
+//	}
+//	//关闭文件
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
+//读文件
+//int main()
+//{
+//	FILE* pf = fopen("test.txt", "r");
+//	if (pf == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//		return 1;
+//	}
+//	//写文件
+//	//int ch = fgetc(pf);
+//	//printf("%c\n", ch);
+//	//ch = fgetc(pf);
+//	//printf("%c\n", ch);
+//	//ch = fgetc(pf);
+//	//printf("%c\n", ch);
+//	//读取并更新:当你调用 fgetc(stream)时,它会做两件事：
+//	//	读取:从当前文件位置指示器指向的位置读取一个字符(一个字节)
+//	//	更新:将文件位置指示器向前移动一个位置,指向下一个要读取的字符
+//	int ch = 0;
+//	while ((ch = fgetc(pf) != EOF))
+//	{
+//		printf("%c ", ch);
+//	}
+//	//关闭文件
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
+//写一行数据
+//int main()
+//{
+//	FILE* pf = fopen("test.txt", "a");
+//	if (pf == NULL)
+//	{
+//		printf("%s\n", strerror(errno));
+//		return 1;
+//	}
+//	//写一行数据
+//	fputs("hello XzDream ", pf);
+//	fputs("hello XzDream\n", pf);
+//	fputs("hello XzDream\n", pf);
+//	//fopen"w"的话如果文件里面有内容 会把文件里面的内容销毁
+//	//fopen"a"的话则不会销毁 "a"是追加
+////关闭文件
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
+//int main()
+//{
+//	FILE* pf = fopen("test.txt", "r");
+//	if (pf == NULL)
+//	{
+//		//printf("%s\n", strerror(errno));
+//		perror("fopen");//perror:printf error 打印错误信息
+//		return 1;
+//	}
+//	//读一行数据
+//	char arr[20];
+//	fgets(arr, 10, pf);
+//	printf("%s\n", arr);
+//	//关闭文件
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
+//struct S
+//{
+//	char arr[10];
+//	int age;
+//	float score;
+//};
+//int main()
+//{
+//	struct S s = { "zhangshan",25,59.9f };
+//	//打开文件
+//	FILE* pf = fopen("test.txt", "w");
+//	if (pf == NULL)
+//	{
+//		perror("fopen");
+//		return 1;
+//	}
+//	//
+//	fprintf(pf, "%s %d %.1f\n", s.arr, s.age, s.score);
+//	//关闭文件
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
+//int main()
+//{
+//	struct S s = { 0 };
+//	FILE* pf = fopen("test.txt", "r");
+//	if (pf == NULL)
+//	{
+//		perror("fopen");
+//		return 1;
+//	}
+//	fscanf(pf, "%s %d %f\n", s.arr, &(s.age), &(s.score));
+//	//关于为什么写write是fprintf和读read为什么是fscanf
+//	//把fscanf理解成扫描就可以了
+//	//输入就是输入到内存，输出就是从内存输出 
+//	//scanf	    输入到内存         printf	从内存输出
+//	//fscanf	从文件输入到内存   fprintf	从内存输出到文件
+//	//printf("%s %d %f\n", s.arr, s.age, s.score);
+//	fprintf(stdout, "%s %d %f\n", s.arr, s.age, s.score);
+//	//打印到屏幕上面去
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
+//流
+//任何一个C程序,只要运行起来就默认打开3个流
+//FILE* stdin  ->标准输入流(键盘)
+//FILE* stdout ->标准输出流(屏幕)
+//FILE* stderr ->标准错误流(屏幕)
+//输入流：数据从外部设备流入程序(如 stdin、fopen打开的文件用于读)
+//输出流：数据从程序流向外部设备(如 stdout、fopen打开的文件用于写)
+//fread fwrite
+//struct S
+//{
+//	char arr[10];
+//	int age;
+//	float score;
+//};
+//int main()
+//{
+//	struct S s = { 0 };
+//	//以二进制的形式写到文件中
+//	FILE* pf = fopen("test.txt", "rb");
+//	if (pf == NULL)
+//	{
+//		perror("fopen");
+//		return 1;
+//	}
+//	//二进制的方式读
+//	fread(&s, sizeof(struct S), 1, pf);
+//	printf("%s %d %f\n", s.arr, s.age, s.score);
+//	//
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
+//int main()
+//{
+//	struct S s = { "zhangsan",25,50.f };
+//	//以二进制的形式写到文件中
+//	FILE* pf = fopen("test.txt", "wb");
+//	if (pf == NULL)
+//	{
+//		perror("fopen");
+//	}
+//	//二进制的方式写
+//	fwrite(&s, sizeof(struct S), 1, pf);
+//	//
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
+//sscanf 
+//把字符串的内存转换为格式化的数据
+//sprintf
+//把一个格式化的数据转换成字符串
+//struct S
+//{
+//	char arr[10];
+//	int age;
+//	float score;
+//};
+//int main()
+//{
+//	struct S s = { "zhangsan", 20, 55.5f };
+//	struct S tmp = { 0 };
+//	char buf[100] = { 0 };
+//	sprintf(buf, "%s %d %f", s.arr, s.age, s.score);
+//	//把s中格式化的数据放到字符串buf中
+//	printf("字符串的形式打印%s\n", buf);
+//
+//	sscanf(buf, "%s %d %f", tmp.arr, &(tmp.age), &(tmp.score));
+//	//从字符串s中获取一个格式化的数据到tmp中
+//	printf("格式化的形式打印%s %d %f", tmp.arr, tmp.age, tmp.score);
+//	return 0;
+//}
+//文件的随机读写
+//fseek
+//根据文件指针的位置和偏移量来定位文件指针
+//int fseek ( FILE * stream, long int offset, int origin );
+//ftell   
+//返回文件指针相对于起始位置的偏移量
+//long int ftell ( FILE * stream );
+//rewind
+//让文件指针的位置回到文件的起始位置
+//void rewind( FILE *stream );
+//SEEK_SET
+//SEEK_SET表示文件开头(Start of File),是 fseek()函数的第三个参数（定位模式）的可选值之一。
+//fseek()的作用是将文件的读写指针（File Position Indicator）移动到指定位置，而 SEEK_SET明确了移动的参考点是“文件的开头”。
+//SEEK_CUR
+//含义:当前读写位置 点醒用途:相对当前位置移动（如跳过 n 字节）
+//int main()
+//{
+//	//以二进制的形式写到文件中
+//	FILE* pf = fopen("test.txt", "r");
+//	if (pf == NULL)
+//	{
+//		perror("fopen");
+//		return 1;
+//	}
+//	fseek(pf, 2, SEEK_SET);
+//	int ch = fgetc(pf);
+//	printf("%d ", ftell(pf));//3
+//	printf("%c\n", ch);//c
+//	ch = fgetc(pf);
+//	printf("%d ", ftell(pf));//4
+//	printf("%c\n", ch);//d
+//	fseek(pf, 2, SEEK_CUR);
+//	ch = fgetc(pf);
+//	printf("%d ", ftell(pf));//7
+//	printf("%c\n", ch);//g
+//	fseek(pf, -3, SEEK_END);//文件实际是 abcdefghijklmn\r\n（16 字节，\r是第 14 字节，\n是第 15 字节）
+//	//所以这里需要-3
+//	ch = fgetc(pf);
+//	printf("%d ", ftell(pf));//14
+//	printf("%c\n", ch);//n
+//	rewind(pf);
+//	ch = fgetc(pf);//重置文件指针的偏移量
+//	printf("%d ", ftell(pf));//1
+//	printf("%c\n", ch);//a
+//	//关闭文件
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
+//文本文件和二进制文件
+//int main()
+//{
+//	int a = 10000;
+//	FILE* pf = fopen("test.txt", "wb");
+//	fwrite(&a, 4, 1, pf);//二进制的形式写到文件中
+//	//看的时候注意大小端
+//	fclose(pf);
+//	pf = NULL;
+//	return 0;
+//}
+//文件读取结束的判定
+//被错误使用的feof
+//feof
+//int feof(FILE *stream);
+//牢记：在文件读取过程中，不能用feof函数的返回值直接用来判断文件的是否结束。
+//而是应用于当文件读取结束的时候，判断是读取失败结束，还是遇到文件尾结束。
+//1. 文本文件读取是否结束，判断返回值是否为 EOF （ fgetc ），或者 NULL （ fgets ）
+//例如：
+//fgetc 判断是否为 EOF .
+//fgets 判断返回值是否为 NULL .
+//2. 二进制文件的读取结束判断，判断返回值是否小于实际要读的个数。
+//例如：
+//fread判断返回值是否小于实际要读的个数。
+//int main(void)
+//{
+//	int c; // 注意：int，非char，要求处理EOF
+//	FILE* fp = fopen("test.txt", "r");
+//	if (!fp) //NULL本身是0 可以速览定义看一下的
+//	{
+//		perror("File opening failed");
+//		return EXIT_FAILURE;
+//	}
+//	//fgetc 当读取失败的时候或者遇到文件结束的时候，都会返回EOF
+//	while ((c = fgetc(fp)) != EOF) // 标准C I/O读取文件循环
+//	{
+//		putchar(c);
+//	}
+//	//判断是什么原因结束的
+//	if (ferror(fp))
+//		puts("I/O error when reading");
+//	else if (feof(fp))
+//		puts("End of file reached successfully");
+//	fclose(fp);
+//}
+//enum
+//{
+//	SIZE = 5
+//};
+//int main(void)
+//{
+//	double a[SIZE] = { 1.,2.,3.,4.,5. };
+//	FILE* fp = fopen("test.bin", "wb"); // 必须用二进制模式
+//	if (fp == NULL)
+//	{
+//		perror("错误信息");
+//		return 1;  // 或 exit(1)
+//	}
+//	fwrite(a, sizeof * a, SIZE, fp); // 写 double 的数组
+//	fclose(fp);
+//	double b[SIZE];
+//	fp = fopen("test.bin", "rb");
+//	size_t ret_code = fread(b, sizeof * b, SIZE, fp); // 读 double 的数组
+//	if (ret_code == SIZE)
+//	{
+//		puts("Array read successfully, contents: ");
+//		for (int n = 0; n < SIZE; ++n) printf("%f ", b[n]);
+//		putchar('\n');
+//	}
+//	else
+//	{ // error handling
+//		if (feof(fp))//判断是否是遇到文件末尾而结束
+//		{
+//			printf("Error reading test.bin: unexpected end of file\n");
+//		}
+//		else if (ferror(fp))//判断是否是读的时候遇到错误而结束的
+//		{
+//			perror("Error reading test.bin");
+//		}
+//	}
+//	fclose(fp);
+//}
+//文件缓冲区
+//为什么需要缓冲区？
+//直接向硬件设备（如磁盘、屏幕）读写数据效率极低（比如写一个字符就触发一次磁盘操作）。
+//缓冲区的作用是：将数据暂存于内存中，积累到一定量后再批量读写硬件，减少硬件交互次数，大幅提升性能。
+//不同的编译器的缓冲区的大小会有所差异
+//int main()
+//{
+//	FILE* pf = fopen("test.txt", "w");
+//	fputs("abcdef", pf);//先将代码放在输出缓冲区
+//	printf("睡眠10秒-已经写数据了，打开test.txt文件，发现文件没有内容\n");
+//	Sleep(10000);
+//	printf("刷新缓冲区\n");
+//	fflush(pf);//刷新缓冲区时，才将输出缓冲区的数据写到文件（磁盘）
+//	//注：fflush 在高版本的VS上不能使用了
+//	printf("再睡眠10秒-此时，再次打开test.txt文件，文件有内容了\n");
+//	Sleep(10000);
+//	fclose(pf);
+//	//注：fclose在关闭文件的时候，也会刷新缓冲区
+//	pf = NULL;
+//	return 0;
+//}
+//程序环境和预处理
+//程序的翻译环境
+//程序的执行环境
+//详解：C语言程序的编译 + 链接
+//预定义符号介绍
+//预处理指令 #define
+//宏和函数的对比
+//预处理操作符#和##的介绍
+//命令定义
+//预处理指令 #include
+//预处理指令 #undef
+//条件编译
+//test.c 编译器处理后变成 test.obj(称为目标文件)
 int main()
 {
 
@@ -8565,12 +9322,13 @@ int main()
 
 
 
+//多写写博客
 //1、系统过完数据结构 —— 所有代码要全部跟着自己实现一遍
 //2、C++新特性、Linux、MySQL
 //3、过算法集训 —— 保持力扣刷题
 //4、高数 四级                                           鹏哥150集
 /*									  蓝桥杯报名  ACM三轮选拔12.18 14.30-17.00   linux
-									  easyX 控制台 swing 文件流 数据库 shutdown命令 句柄 wmare workstation
+									  easyX 控制台 swing 数据库 shutdown命令 句柄 vwmare workstation
 									  Git  PTA上50题 洛谷200题 LeetCode 汉诺塔(小游戏)
 									  英语四级 班主任的科研组 《函数栈帧的创建与销毁》
 									  数据结构 算法 《剑指offer》
