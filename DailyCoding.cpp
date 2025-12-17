@@ -2901,15 +2901,15 @@ int main(void)
 //	//所以一共只会输出c
 //	return 0;
 //}
-int main()
-{
-	char c = 1;
-	printf("%u\n", sizeof(c));//1
-	printf("%u\n", sizeof(+c));//4 //整形提升之后参与运算 所以是4个字节
-	printf("%u\n", sizeof(-c));//4 //与上述同理
-	//%u打印无符号整形
-	return 0;
-}
+//int main()
+//{
+//	char c = 1;
+//	printf("%u\n", sizeof(c));//1
+//	printf("%u\n", sizeof(+c));//4 //整形提升之后参与运算 所以是4个字节
+//	printf("%u\n", sizeof(-c));//4 //与上述同理
+//	//%u打印无符号整形
+//	return 0;
+//}
 //					算术转换
 //如果某个操作符的各个操作数属于不同的类型
 //那么除非其中一个操作数的转换为另一个操作数的类型
@@ -9370,13 +9370,9 @@ sizeof
 //	printf("%s\n", STR);
 //	return 0;
 //}
-
-//int main()
-//{
-//	printf("%zd\n", sizeof(int64_t));//%zu所有平台都一样
-//	return 0;
-//}
-
+//学习Git
+//一条龙 干到底  顺便把GitHub和Gitee给搞好
+//用Cursor制作冬至贺卡
 
 
 
