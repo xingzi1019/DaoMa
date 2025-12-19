@@ -9373,6 +9373,60 @@ sizeof
 //学习Git
 //一条龙 干到底  顺便把GitHub和Gitee给搞好
 //用Cursor制作冬至贺卡
+//宏定义时考虑到运算优先级和结合性的问题 所以不要吝啬括号
+//#define SQUARE1(X) ((X)*(X))
+//#define SQUARE2(X) X*X
+////所以写宏时不要吝啬括号
+//int main()
+//{
+//	int r1 = SQUARE1(5 + 1);
+//	int r2 = SQUARE2(5 + 1);
+//	printf("%d\n", r1);//36  ((6)*(6))
+//	printf("%d\n", r2);//11
+//}
+//#define DOUBLE1(X) (X)+(X)
+//#define DOUBLE2(X) ((X)+(X))
+//int main()
+//{
+//	int i = 10 * DOUBLE1(3);
+//	printf("%d\n", i);//33    = 10*3+3
+//	int j = 10 * DOUBLE2(3);
+//	printf("%d\n", j);//60    = 10*((3)+(3))
+//}
+//#define 替换规则
+//在程序中扩展#define定义符号和宏时，需要涉及几个步骤。
+//1. 在调用宏时，首先对参数进行检查，看看是否包含任何由#define定义的符号。如果是，它们首先
+//被替换。
+//2. 替换文本随后被插入到程序中原来文本的位置。对于宏，参数名被他们的值替换。
+//3. 最后，再次对结果文件进行扫描，看看它是否包含任何由#define定义的符号。如果是，就重复上
+//述处理过程。
+//注意：
+//1. 宏参数和#define 定义中可以出现其他#define定义的变量。但是对于宏，不能出现递归。
+//2. 当预处理器搜索#define定义的符号的时候，字符串常量的内容并不被搜索
+//#define M 100
+//#define DOUBLE(X) ((X)+(X))
+//int main()
+//{
+//	DOUBLE(M + 2);
+//	//合法
+//}
+//#和##的用法
+#define PRINT(N) printf("the value of "#N" is %d\n",N)
+int main()
+{
+	printf("hello world\n");
+	printf("hello ""world\n");
+	//printf的冷知识补充
+	//都会输出hello world
+	int a = 10;
+	int b = 20;
+	PRINT(a);
+	PRINT(b);
+	printf("the value of ""a"" is %d\n", a);
+	printf("the value of ""b"" is %d\n", b);
+}
+
+
 
 
 
