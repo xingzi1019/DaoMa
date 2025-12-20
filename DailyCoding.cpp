@@ -9411,23 +9411,271 @@ sizeof
 //	//合法
 //}
 //#和##的用法
-#define PRINT(N) printf("the value of "#N" is %d\n",N)
-int main()
-{
-	printf("hello world\n");
-	printf("hello ""world\n");
-	//printf的冷知识补充
-	//都会输出hello world
-	int a = 10;
-	int b = 20;
-	PRINT(a);
-	PRINT(b);
-	printf("the value of ""a"" is %d\n", a);
-	printf("the value of ""b"" is %d\n", b);
-}
+//#的用法
+//#define PRINT(N) printf("the value of "#N" is %d\n",N)
+//int main()
+//{
+//	printf("hello world\n");
+//	printf("hello ""world\n");
+//	//所以字符串是有自动链接的特点的
+//	//printf的冷知识补充
+//	//都会输出hello world
+//	int a = 10;
+//	int b = 20;
+//	PRINT(a);
+//	PRINT(b);
+//	//#N把参数转换成一个字符串
+//	//#N会被替换成"a"
+//	printf("the value of ""a"" is %d\n", a);
+//	printf("the value of ""b"" is %d\n", b);
+//}
+//#define PRINT(N,FORMAT) printf("the value of"#N" is "FORMAT"\n",N)
+//int main()
+//{
+//	int a = 10;
+//	PRINT(a, "%d");
+//	float b = 3.14f;
+//	PRINT(b, "%lf");
+//	return 0;
+//}
+//##号的用法
+//##可以把位于两边的符号合成一个符号
+//#define CAT(Class,Num) Class##Num
+//int main()
+//{
+//	int class106 = 100;
+//	printf("%d\n", CAT(class, 106));//100
+//	//等价于printf("%d\n",class106);
+//}
+//宏参数的副作用 
+//宏的参数是替换进去的 而不是计算完再替换进去的
+//先来回顾一下目前常见的副作用
+//int main()
+//{
+//	int a = 10;
+//	int b;
+//	printf("%d\n", b = ++a);//11  副作用是a在此处也会发生自增
+//	printf("%d\n", a);//11
+//	return 0;
+//}
+//#define MAX(x,y) ((x)>(y)?(x):(y)) //再提醒一遍不要吝啬括号
+//int main()
+//{
+//	int m = MAX(2, 3);
+//	printf("%d\n", m);//3
+//	//这个好理解也没有任何问题
+//	int a = 5, b = 4;
+//	int c = MAX(a++, b++);//使用诸如此类的宏时会发生不可预测的结果
+//	printf("a=%d b=%d c=%d\n", a, b, c);//7 5 6
+//	//7好理解 但是5不好理解 因为:(b)没有被执行 b只在(a)>(b)这一块发生了自增
+//	//6也不好理解 ?(a++) 先使用a是6的值 然后a再自增变成7
+//	return 0;
+//}
+//宏和函数  非要争个好坏吗? 知道什么时候使用宏 什么时候使用函数就好了
+//宏的优势
+//1. 用于调用函数和从函数返回的代码可能比实际执行这个小型计算工作所需要的时间更多。所以宏比
+//函数在程序的规模和速度方面更胜一筹。
+//2. 更为重要的是函数的参数必须声明为特定的类型。所以函数只能在类型合适的表达式上使用。反之
+//这个宏怎可以适用于整形、长整型、浮点型等可以用于 > 来比较的类型。宏是类型无关的。
+//宏的劣势
+//1. 每次使用宏的时候，一份宏定义的代码将插入到程序中。除非宏比较短，否则可能大幅度增加程序的长度。
+//2. 宏是没法调试的。
+//3. 宏由于类型无关，也就不够严谨。
+//4. 宏可能会带来运算符优先级的问题，导致程容易出现错。
+//e.g.
+//#define MAX(x,y) ((x)>(y)?(x):(y))//没有类型的限制
+//int Max(int x, int y)//类型限制为int
+//{
+//	return (x > y ? x : y);
+//}
+//#define MALLOC(NUM,TYPE) (TYPE*)malloc((NUM)*sizeof(TYPE))
+//int main()
+//{
+//	//malloc(40);
+//	//malloc(10,int);//error
+//	int* p1 = MALLOC(10, int);
+//	int* p2 = (int*)malloc(10 * sizeof(int));
+//	return 0;
+//}
+//一些编码习惯 宏名写成全大写 函数名用驼峰命名法
+// #undef
+//这条指令用于移除一个宏定义
+//#define M 100
+//void test(int m)
+//{
+//	printf("%d\n", m);
+//}
+//int main()
+//{
+//	printf("%d\n", M);
+//	test(M);
+//#undef M
+//	//printf("%d", M);
+//	return 0;
+//}
+//条件编译
+//#define __DEBUG__
+//int main()
+//{
+//	int i = 0;
+//	int arr[10] = { 0 };
+//	for (i = 0; i < 10; i++)
+//	{
+//		arr[i] = i;
+//#ifdef __DEBUG__ //为假的话 后面就不参与编译
+//		printf("%d\n",arr[i]);
+//#endif // __DEBUG__    //这里的注释是增加代码的可读性的 目的是为了知道这个条件编译和哪个匹配
+//	}
+//	return 0;
+//}
+//提供一些常用的条件编译指令
+/*
+1.
+#if 常量表达式
+//...
+#endif
+//常量表达式由预处理器求值。
+如：
+#define __DEBUG__ 1
+#if __DEBUG__
+//..
+#endif
+2.多个分支的条件编译
+#if 常量表达式
+//...
+#elif 常量表达式
+//...
+#else
+//...
+#endif
+3.判断是否被定义
+#if defined(symbol)
+#ifdef symbol
+#if !defined(symbol)
+#ifndef symbol
+4.嵌套指令
+#if defined(OS_UNIX)
+#ifdef OPTION1
+unix_version_option1();
+#endif
+#ifdef OPTION2
+unix_version_option2();
+#endif
+#elif defined(OS_MSDOS)
+#ifdef OPTION2
+msdos_version_option2();
+#endif
+#endif
+*/
+//int main()
+//{
+//#if 1 //记得这里要放常量表达式
+//	printf("hehe\n");
+//#endif
+//
+//#if 0
+//	printf("hehe\n");
+//#endif
+//
+//#if 2==3
+//	printf("hehe\n");
+//#endif
+//
+//	return 0;
+//}
+//#define M 3
+//int main()
+//{
+//#if M<5
+//	printf("hehe\n");
+//#elif M==5
+//	printf("haha\n");
+//#elif
+//	printf("heihei\n");
+//#endif
+//	return 0;
+//}
+//#define MAX 100
+//int main()
+//{
+//#if defined(MAX)
+//	printf("hehe\n");
+//#endif
+//	int i = 0;
+//#if defined(i)
+//	printf("hehe\n");
+//#endif
+//	return 0;
+//}
+//int main()
+//{
+//#if !defined(MAX)
+//	printf("max\n");
+//#endif
+//	return 0;
+//}
+//其他的一些预编译指令
+//#error：强制编译报错（终止编译）
+//在预处理阶段检测到非法条件时，立即终止编译，并输出自定义错误信息
+//#pragma：编译器专属指令（平台相关）
+//核心作用是向编译器发送特定指令（非标准，不同编译器支持的 #pragma 不同），用于控制编译行为
+//#line：修改行号 / 文件名（调试辅助）
+//修改预处理器记录的「当前行号」和「文件名」
 
-
-
+// MSVC：设置结构体按 16 字节对齐
+//#pragma pack(push, 16)  // push 保存当前对齐设置，16 设为新值
+//struct Data
+//{
+//	char a;
+//	int b;
+//	double c;
+//};
+//#pragma pack(pop)  // 恢复之前的对齐设置
+//// GCC：等价写法（也可用 __attribute__）
+//#pragma pack(16)
+//struct DataGCC 
+//{
+//	char a;
+//	int b;
+//	double c;
+//};
+//#pragma pack()
+//int main()
+//{
+//	// 原始行号：假设 main 从第4行开始
+//	printf("原始：行号=%d，文件=%s\n", __LINE__, __FILE__);  // 输出 6, test.c
+//	// 修改行号为 100，文件名为 "my_code.c"
+//#line 100 "my_code.c"
+//	printf("修改后：行号=%d，文件=%s\n", __LINE__, __FILE__);  // 输出 101, my_code.c
+//	// 后续行号自动递增
+//	printf("自动递增：行号=%d\n", __LINE__);  // 输出 102
+//	return 0;
+//}
+//offsetof宏的实现
+//size_t offsetof( structName, memberName );//函数原型
+//来个百度笔试题
+//写一个宏 计算结构体中某变量相对于首地址的偏移，并给出说明
+//struct S
+//{
+//	char c1;
+//	int i;
+//	char c2;
+//};
+////#define OFFSETOF(type,m_name) (size_t)&(((type*)0)->m_name) //太牛逼NB了 好好研究这串代码 算是指针的运用
+//#define OFFSETOF(type,m_name) (size_t)&(((type*)0x00000000)->m_name) //也可以这么写
+//int main()
+//{
+//	struct S s = { 0 };
+//	struct S* ps = &s;
+//	printf("%d\n", OFFSETOF(struct S, c1));//0
+//	printf("%d\n", OFFSETOF(struct S, i));//4
+//	printf("%d\n", OFFSETOF(struct S, c2));//8
+//	//printf("%d\n", offsetof(struct S, c1));//0
+//	//printf("%d\n", offsetof(struct S, i));//4
+//	//printf("%d\n", offsetof(struct S, c2));//8
+//	return 0;
+//}
+//OK啊 所有知识点结束 记得及时复习巩固和加强刷题训练 顺便再写一篇博客
 
 
 //多写写博客
@@ -9438,8 +9686,8 @@ int main()
 /*									  蓝桥杯报名  ACM三轮选拔12.18 14.30-17.00   linux
 									  easyX 控制台 swing 数据库 shutdown命令 句柄 vwmare workstation
 									  Git  PTA上50题 洛谷200题 LeetCode 汉诺塔(小游戏)
-									  英语四级 班主任的科研组 《函数栈帧的创建与销毁》
-									  数据结构 算法 《剑指offer》
+									  英语四级 班主任的科研组 	 数据结构 算法
+									  《函数栈帧的创建与销毁《剑指offer》《高质量C/C++编程指南》
 大一上  1.C语言 中国大学MOOC 翁恺
 		2.《C primer plus》
 		3.大概学到指针和结构体
