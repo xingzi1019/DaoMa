@@ -8,6 +8,7 @@ int Add(int x, int y);
 #include <assert.h>//assert
 #include <ctype.h>//islower isupper toupper tolower
 #include <errno.h>//errno
+#include <limits.h>//INT_MAX
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>

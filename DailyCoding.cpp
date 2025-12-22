@@ -9661,7 +9661,7 @@ msdos_version_option2();
 //	int i;
 //	char c2;
 //};
-////#define OFFSETOF(type,m_name) (size_t)&(((type*)0)->m_name) //太牛逼NB了 好好研究这串代码 算是指针的运用
+//#define OFFSETOF(type,m_name) (size_t)&(((type*)0)->m_name) //太牛逼NB了 好好研究这串代码 算是指针的运用
 //#define OFFSETOF(type,m_name) (size_t)&(((type*)0x00000000)->m_name) //也可以这么写
 //int main()
 //{
@@ -9677,22 +9677,243 @@ msdos_version_option2();
 //}
 //OK啊 所有知识点结束 记得及时复习巩固和加强刷题训练 顺便再写一篇博客
 
+//补题 单身狗 力扣260
+//一个数组中只有两个数字是出现一次，其他所有数字都出现了两次
+//编写一个函数找出这两个只出现一次的数字   太牛逼NB了鹏哥这个方法
+//void find_single_dog(const int arr[], const int sz, int* pd1, int* pd2)
+//{
+//	//1,1,2,2,3,3,4,4,5,6  
+//	//1,2,3,4,5,1,2,3,4,6
+//	//0101 ->5
+//	//0110 ->6
+//	//0011 ->3
+//	int i = 0;
+//	int ret = 0;
+//	for (i = 0; i < sz; i++)
+//	{
+//		ret ^= arr[i];//同0异1
+//	}
+//	int pos = 0;
+//	//00000000 00000000 00000000 00000011 -->ret
+//	//00000000 00000000 00000000 00000001 -->1
+//
+//	for (pos = 0; pos < 32; pos++)
+//	{
+//		if (((ret >> pos) & 1) == 1)
+//		{
+//			break;// 如果找到为 1 的位，立即跳出循环    且pos的值会被更新
+//		}
+//	}
+//	for (i = 0; i < sz; i++)
+//	{
+//		if (((arr[i] >> pos) & 1) == 1)//分组来x和y的pos是不同的 所以必定一个在if组 一个在else组
+//		{
+//			*pd1 ^= arr[i];//好好理解 这块不好懂 
+//		}
+//		else
+//		{
+//			*pd2 ^= arr[i];
+//		}
+//	}
+//}
+////懂了 song
+////分组
+////0去异或所有数字得到的就是那两个单生狗的异或
+////异或位置上的不同的就是1 pos那里从左往右找到第一个为1的数并更新pos的值 *pd1是0 按照分组来异或 相同的异或完就变成了0 所以
+////最后*pd1就是第一组里面的那个单身狗
+////同样的else得到的就是另一个单身狗
+//int main()
+//{
+//	int arr[] = { 1,1,2,2,3,3,4,4,5,6 };
+//	int sz = sizeof(arr) / sizeof(arr[0]);
+//	int dog1 = 0;
+//	int dog2 = 0;
+//	find_single_dog(arr, sz, &dog1, &dog2);
+//	printf("%d %d\n", dog1, dog2);
+//	return 0;
+//}
+//atoi
+//int atoi(const char *str)  <stdlib.h>
+//返回转换后的长整数
+//atoi基本用法
+//int main()
+//{
+//	int val;
+//	char str[20];
+//	strcpy(str, "9899ads489");
+//	val = atoi(str);
+//	printf("字符串值 = %s, 整型值 = %d\n", str, val);
+//	//字符串值 = 9899ads489, 整型值 = 9899
+//	strcpy(str, "runoob.com");
+//	val = atoi(str);
+//	printf("字符串值 = %s, 整型值 = %d\n", str, val);
+//	//字符串值 = runoob.com, 整型值 = 0
+//	return(0);
+//}
+//接下来模拟实现atoi
+//enum Status
+//{
+//	VALID,//0
+//	INVALID//1
+//};
+//enum Status sta = INVALID;
+//int  myatoi(const char* str)
+//{
+//	sta = INVALID;
+//	assert(str);
+//	if (*str == '\0')
+//	{
+//		return 0;
+//	}
+//	while (isspace(*str))
+//	{
+//		str++;
+//	}
+//	int flag = 1;
+//	if (*str == '+')
+//	{
+//		flag = 1;
+//		str++;
+//	}
+//	else if (*str == '-')
+//	{
+//		flag = -1;
+//		str++;
+//	}
+//	long long sum = 0;
+//	// 开始转换数字
+//	while (*str && isdigit(*str))
+//	{
+//		int digit = *str - '0';
+//		// 检查正溢出
+//		if (flag == 1 && sum > INT_MAX / 10 - digit / 10)
+//		{
+//			sta = INVALID;
+//			return INT_MAX;
+//		}
+//		// 检查负溢出
+//		if (flag == -1 && (-sum) < INT_MIN / 10 + digit / 10)
+//		{
+//			sta = INVALID;
+//			return INT_MIN;
+//		}
+//		sum = sum * 10 + digit;
+//		str++;
+//	}
+//	// 如果遇到了非数字字符且已经转换了数字，则认为是有效转换
+//	// 如果整个字符串都没有数字，则是无效转换
+//	if (str != (str - (sum == 0 ? 0 : 1))) // 简单判断是否转换了数字
+//	{
+//		sta = VALID;
+//	}
+//	return flag * sum;
+//}
+//int main()
+//{
+//	char str1[] = "xing1019zi";
+//	char str2[] = "1019xingzi1019";
+//	char str3[] = "-1019xingzi1019";
+//	if (sta == VALID)
+//	{
+//		printf("合法转换\n");
+//	}
+//	else if (sta == INVALID)
+//	{
+//		printf("非法返回\n");
+//	}
+//	int val1 = myatoi(str1);
+//	printf("%s %d\n", str1, val1);//0
+//	int val2 = myatoi(str2);
+//	printf("%s %d\n", str2, val2);//1019
+//	int val3 = myatoi(str3);
+//	printf("%s %d\n", str3, val3);//-1019
+//	return 0;
+//}
+//坑
+//#define INT_PTR int*
+//typedef int* int_ptr;
+//INT_PTR a, b;//a是int* b是int
+//int_ptr c, d;//c是int* d是int*
+////int* a, b;和 int *a, b;是完全等价的
+////*只属于 a，不属于 b
+//再强调一遍:feof是用来确认上一次读取操作是否因为到达文件末尾而失败
+//写一个宏 可以将一个整数的二进制位的奇数和偶数位交换
+//#define SWAP_BIT(N) ((((N)&(0x55555555))<<1) + ((N)&(0xaaaaaaaa)>>1))
+//int main()
+//{
+//	int n = 0;
+//	scanf("%d", &n);
+//	SWAP_BIT(n);
+//	return 0;
+//}
+//int main()
+//{
+//	unsigned char i = 7;
+//	int j = 0;
+//	for (; i > 0; i -= 3)
+//	{
+//		++j;
+//	}
+//	printf("%d\n", j);
+//	//7 4 1 
+//	//1 2 3
+//	//10000000 00000000 00000000 00000010 --> -2
+//	//11111111 11111111 11111111 11111101
+//	//11111111 11111111 11111111 11111110 --> -2的补码
+//	//							 11111110 --> 放进i  十进制为254 所以1-2之后变成254
+//	//254 / 3 = 84 ----2     2 - 3 = -1
+//	//10000000 00000000 00000000 00000001 --> -1
+//	//11111111 11111111 11111111 11111110
+//	//11111111 11111111 11111111 11111111 --> -1的补码
+//	//							 11111111 --> 放进i  十进制为255
+//	//255 / 3 = 85 
+//	//3+84+1+85=173
+//	return 0;
+//}
+//int main()
+//{
+//	char a = 0, ch;
+//	while ((ch = getchar()) != '\n')
+//	{
+//		if (a % 2 != 0 && (ch >= 'a' && ch <= 'z'))
+//		{
+//			ch = ch - 'a' + 'A';
+//		}
+//		a++;
+//		putchar(ch);
+//	}
+//	printf("\n");
+//	return 0;
+//}
+//int main()
+//{
+//	int a = -3;
+//	unsigned int b = 2;
+//	long c = a + b;
+//	printf("%ld\n", c);
+//	printf("%u\n", c);
+//	return 0;
+//}
 
+
+
+
+//学数据结构时下面内容记得拷贝过去和修改一下
 //多写写博客
 //1、系统过完数据结构 —— 所有代码要全部跟着自己实现一遍
 //2、C++新特性、Linux、MySQL
 //3、过算法集训 —— 保持力扣刷题
-//4、高数 四级                                           鹏哥150集
-/*									  蓝桥杯报名  ACM三轮选拔12.18 14.30-17.00   linux
+//4、高数 四级                                 鹏哥150集   预处理
+/*									  蓝桥杯报名✔ ACM三轮选拔12.18 14.30-17.00✔   linux
 									  easyX 控制台 swing 数据库 shutdown命令 句柄 vwmare workstation
-									  Git  PTA上50题 洛谷200题 LeetCode 汉诺塔(小游戏)
+									  Git✔  PTA上50题 洛谷200题 LeetCode 汉诺塔(小游戏)
 									  英语四级 班主任的科研组 	 数据结构 算法
-									  《函数栈帧的创建与销毁《剑指offer》《高质量C/C++编程指南》
-大一上  1.C语言 中国大学MOOC 翁恺
+									  《函数栈帧的创建与销毁》《剑指offer》《高质量C/C++编程指南》
+大一上  1.C语言 中国大学MOOC 翁恺✔
 		2.《C primer plus》
-		3.大概学到指针和结构体
+		3.大概学到指针和结构体✔
 		4.菜鸟教程（https://www.runoob.com/）
-		5.B站（C语言小项目）
+		5.B站（C语言小项目）✔
 
 大一下：1.数据结构与算法基础
 	   2.在学这门课的过程中或者学完之后在力扣(leetcode)和洛谷两个网站去刷算法题，一天一道长期坚持。
