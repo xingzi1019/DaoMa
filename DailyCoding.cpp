@@ -9894,6 +9894,9 @@ msdos_version_option2();
 //	printf("%u\n", c);
 //	return 0;
 //}
+//strcspn
+//size_t strcspn(const char *str1, const char *str2); 
+//用于计算 字符串 str1开头连续不包含 str2中任意字符的字符个数
 
 
 
