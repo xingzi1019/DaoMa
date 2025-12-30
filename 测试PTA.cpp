@@ -1,9 +1,10 @@
 #define  _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
+#include <assert.h>
 #include <math.h>
 #include <stdbool.h>
-#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>  // 包含srand()和rand()函数
+#include <string.h>
 #include <time.h> // 包含time()函数，用于获取系统时间
 //int main()
 //{
@@ -1029,33 +1030,407 @@
 //}
 //本题要求从数组中删除指定数x，然后输出删除后的数组元素。
 //如果x不存在于数组中，提示“Not found x"，其中的x是具体数值。
-#define N 10
-int main()
-{
-	//本题假设数组中顶多存在一个要找的x
-	int a[N], i, j, x;
-	for (i = 0; i < N; i++)
-		scanf("%d", &a[i]);
-	scanf("%d", &x);
-	int flag = 0;  //预设标志
-	for (i = 0; i < N; i++) //依次查找数组中是否有x
-	{
-		if (		)
-		{
-			(    )
-			//设置找到标志
-			for (j =	; j <	; j++)
-				a[j] = a[j + 1];
-			break;
-		}
-	}
-	if ( )
-		for (i = 0; i < N - 1; i++)
-			if (i == 0)
-				printf("%d", a[i]);
-			else
-				printf(" %d", a[i]);
-	else
-		printf("Not found %d", x);
-	return 0;
-}
+//#define N 10
+//int main()
+//{
+//	//本题假设数组中顶多存在一个要找的x
+//	int a[N], i, j, x;
+//	for (i = 0; i < N; i++)
+//		scanf("%d", &a[i]);
+//	scanf("%d", &x);
+//	int flag = 0;  //预设标志
+//	for (i = 0; i < N; i++) //依次查找数组中是否有x
+//	{
+//		if (		)
+//		{
+//			(    )
+//			//设置找到标志
+//			for (j =	; j <	; j++)
+//				a[j] = a[j + 1];
+//			break;
+//		}
+//	}
+//	if ( )
+//		for (i = 0; i < N - 1; i++)
+//			if (i == 0)
+//				printf("%d", a[i]);
+//			else
+//				printf(" %d", a[i]);
+//	else
+//		printf("Not found %d", x);
+//	return 0;
+//}
+//#include <stdio.h>
+//#include <string.h>
+//#define N 80
+//int main(void)
+//{
+//	int k;
+//	for (k = 1; k <= 3; k++) { //该循环用于自动阅卷，请考生忽略
+//		char s[N];
+//		int i, j;
+//		scanf("%s", &s);
+//		//输入一个字符串，存入字符数组s中
+//		i = 0;  //字符串首端字符对应数组元素的下标
+//		j = strlen(s) - 1;  //字符串尾端字符对应数组元素的下标
+//		while (i < j)
+//		{
+//			if (s[i] == s[j])
+//			{
+//				i++;
+//				j--;
+//			}
+//			else
+//				break;
+//		}
+//		if (i >= j)
+//			printf("Yes!\n");
+//		else
+//			printf("No!\n");
+//	} //该循环用于自动阅卷，请考生忽略
+//	return 0;
+//}
+//int main()
+//{
+//	int n;
+//	scanf("%d", &n);
+//	int a[n];
+//	int max = 0;
+//	for (int i = 0; i < n; i++)
+//	{
+//		scanf("%d", a[i]);
+//		if (a[i] > max)
+//			max = a[i];
+//	}
+//}
+//int main()
+//{
+//	int n;
+//	if (scanf("%d", &n) != 1 || n <= 0)
+//	{
+//		return 0;
+//	}
+//	int a[10000];
+//	int max = 0;
+//	for (int i = 0; i < n; i++)
+//	{
+//		scanf("%d", &a[i]);
+//		if (a[i] > max)
+//			max = a[i];
+//	}
+//	printf("%d\n", max);
+//	for (int k = 1; k <= max; k++)
+//	{
+//		int count = 0;
+//		for (int i = 0; i < n; i++)
+//		{
+//			if (a[i] >= k)
+//				count++;
+//		}
+//		printf("%d", count);
+//		if (k != max) 
+//			printf(" ");
+//	}
+//	printf("\n");
+//	return 0;
+//}
+//int main() 
+//{
+//	int n;
+//	scanf("%d", &n);
+//	int a[100];
+//	int max = 0;
+//	for (int i = 0; i < n; i++) 
+//	{
+//		scanf("%d", &a[i]);
+//		if (a[i] > max)
+//		{
+//			max = a[i];
+//		}
+//	}
+//	printf("%d\n", max);
+//	int arr[100][100] = { 0 };
+//	for (int col = 0; col < n; col++) 
+//	{
+//		for (int row = 0; row < a[col]; row++) 
+//		{ 
+//			arr[row][col] = 1;
+//		}
+//	}
+//	for (int r = 0; r < max; r++) 
+//	{
+//		int count = 0;
+//		for (int c = 0; c < n; c++) 
+//		{
+//			if (arr[r][c] == 1) 
+//				count++;
+//		}
+//		printf("%d ", count);
+//	}
+//	printf("\n");
+//	return 0;
+//}
+//int main() 
+//{
+//	int n;
+//	scanf("%d", &n);
+//	int* a = (int*)malloc(n * sizeof(int));
+//	int max = 0;
+//	for (int i = 0; i < n; i++) 
+//	{
+//		scanf("%d", &a[i]);
+//		if (a[i] > max) 
+//			max = a[i];
+//	}
+//	int* freq = (int*)calloc(max + 2, sizeof(int));
+//	for (int i = 0; i < n; i++) 
+//	{
+//		freq[a[i]]++;
+//	}
+//	int* count = (int*)malloc((max + 2) * sizeof(int));
+//	count[max] = freq[max];
+//	for (int r = max - 1; r >= 1; r--) 
+//	{
+//		count[r] = count[r + 1] + freq[r];
+//	}
+//	printf("%d\n", max);
+//	for (int r = 1; r <= max; r++) 
+//	{
+//		printf("%d ", count[r]);
+//	}
+//	printf("\n");
+//	free(a);
+//	free(freq);
+//	free(count);
+//	return 0;
+//}
+//#define MAXN 1005  // 假设最大长度
+//int main() 
+//{
+//	int n;
+//	scanf("%d", &n);
+//	// 顺序表 a 存储初始高度
+//	int a[MAXN];
+//	int max_h = 0;
+//	// 顺序表初始化（输入）
+//	for (int i = 0; i < n; i++) 
+//	{
+//		scanf("%d", &a[i]);
+//		if (a[i] > max_h) 
+//		{
+//			max_h = a[i];
+//		}
+//	}
+//	// 新顺序表 res 的长度为 max_h
+//	int m = max_h;
+//	int res[MAXN];
+//	// 构建新顺序表：res[k-1] 表示新第 k 列的高度
+//	for (int k = 1; k <= m; k++) 
+//	{
+//		int count = 0;
+//		// 遍历顺序表 a，统计 a[i] >= k 的元素个数
+//		for (int i = 0; i < n; i++)
+//		{
+//			if (a[i] >= k) 
+//			{
+//				count++;
+//			}
+//		}
+//		res[k - 1] = count;  // 顺序表 res 下标从 0 开始
+//	}
+//	// 输出新顺序表的长度 m
+//	printf("%d\n", m);
+//	// 顺序表遍历输出
+//	for (int i = 0; i < m; i++) 
+//	{
+//		printf("%d", res[i]);
+//		if (i != m - 1) 
+//		{
+//			printf(" ");
+//		}
+//	}
+//	printf("\n");
+//	return 0;
+//}
+//
+//#include <stdio.h>
+//int main() 
+//{
+//	char  s[] = "abcde";
+//	s += 2;
+//	printf("%d\n", s[0]);
+//}//error
+//假设scanf语句执行时输入ABCDE<回车>，能使puts(s)语句正确输出ABCDE字符串的程序段是__。    D
+//A.
+//char s[5] = { "ABCDE" }; puts(s);
+//B.
+//char s[5] = { 'A', 'B', 'C', 'D', 'E' }; puts(s);
+//C.
+//char* s; scanf("%s", s); puts(s);
+//D.
+//char* s; s = "ABCDE"; puts(s);
+//以下哪一种对于str的定义不恰当，有可能使strlen(str)（strlen是定义在C标准库中的函数）获得非预期的结果：  C
+//A.
+//char str[] = "hello world!";
+//B.
+//char str[100] = "X";
+//C.
+//char str[4] = "abcd";
+//D.
+//char str[6] = { 65, 66, 67, 68, 69, 0 };
+//若有说明语句：char c[] = "\n"，则c（ ）。           B
+//A.
+//包含1个字符
+//B.
+//包含2个字符
+//C.
+//包含3个字符
+//D.
+//长度不定
+//error
+//int main()
+//{
+//	char  s[] = "abcde";
+//	s += 2;
+//	printf("%d\n", s[0]);
+//}
+//替换空格   
+//当字符串为“We Are Happy“.则经过替换之后的字符串为“We%20Are%20Happy“
+//int main()
+//{
+//	char ch;
+//	while ((ch = getchar()) != '\n')
+//	{
+//		if (ch != ' ')
+//			putchar(ch);
+//		else
+//			printf("%%20");
+//	}
+//	return 0;
+//}
+//替换空格
+//char* replaceSpace(char* s) 
+//{
+//	assert(s);
+//	if (s == NULL) 
+//		return NULL;
+//	// 统计空格数量和计算新长度
+//	int len = strlen(s);
+//	int space_count = 0;
+//	for (int i = 0; i < len; i++) 
+//	{
+//		if (s[i] == ' ') 
+//		{
+//			space_count++;
+//		}
+//	}
+//	// 新长度 = 原长度 + 空格数量 * 2（因为每个空格替换为3个字符，净增2个）
+//	int new_len = len + space_count * 2;
+//	// 分配新内存（+1 是为了存放字符串结束符 '\0'）
+//	char* result = (char*)malloc(sizeof(char) * (new_len + 1));
+//	if (result == NULL) return NULL;
+//	// 从后往前填充，避免频繁移动
+//	int i = len - 1;        // 原字符串指针（从末尾开始）
+//	int j = new_len - 1;    // 新字符串指针（从末尾开始）
+//	result[new_len] = '\0'; // 设置结束符
+//	while (i >= 0) 
+//	{
+//		if (s[i] == ' ') 
+//		{
+//			// 替换空格为 "%20"
+//			result[j--] = '0';
+//			result[j--] = '2';
+//			result[j--] = '%';
+//		}
+//		else 
+//		{
+//			// 普通字符直接复制
+//			result[j--] = s[i];
+//		}
+//		i--;
+//	}
+//	return result;
+//}
+//#include <ctype.h>
+//int main() 
+//{
+//	char str[35];
+//	int ssum = 0;
+//	while (fgets(str, sizeof(str), stdin))
+//	{
+//		str[strcspn(str, "\n")] = '\0';
+//		if (strcmp(str, "***") == 0) 
+//		{
+//			break;
+//		}
+//		char str2[3] = { 0 };
+//		int count = 0;
+//		for (int i = strlen(str) - 1; i >= 0; i--)
+//		{
+//			if (isdigit((unsigned char)str[i]))
+//			{
+//				str2[count++] = str[i];
+//				if (count == 2) 
+//				{
+//					break;
+//				}
+//			}
+//		}
+//		if (count == 0) 
+//		{
+//			continue; 
+//		}
+//		else 
+//		{
+//			int num = 0;
+//			for (int i = 0; i < count; i++) 
+//			{
+//				num = num * 10 + (str2[i] - '0');
+//			}
+//			ssum += num;
+//		}
+//	}
+//	printf("%d\n", ssum);
+//	return 0;
+//}
+//void PeoOut(int* arr, int num)
+//{
+//	assert(arr && num);
+//	//printf("%d ", num);
+//	//arr[num - 1] = 0;
+//	int count = 0;
+//	int putcount = 0;
+//	for (int i = 0; i < 10; i++)
+//	{
+//		if (arr[i] != 0)
+//		{
+//			count++;
+//			if (count == num)
+//			{
+//				arr[i] = 0;
+//				count = 0;
+//				printf("%d ", i + 1);
+//				putcount++;
+//			}
+//		}
+//		if (putcount < 10 && i == 9)
+//			i = -1;
+//		if (putcount == 10)
+//		{
+//			break;
+//		}
+//	}
+//}
+//int main()
+//{
+//	int arr[10];
+//	int sz = sizeof(arr) / sizeof(arr[0]);
+//	for (int i = 0; i < sz; i++)
+//	{
+//		arr[i] = i + 1;
+//	}
+//	int num;
+//	scanf("%d", &num);
+//	PeoOut(arr, num);
+//	return 0;
+//}
